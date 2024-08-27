@@ -10,15 +10,17 @@ use illuminate\Http\Client\Response;
 class UserController extends Controller
 {
     public function index(){
-        $user  = Http::get('http://127.0.0.1:8000/api/user-profile');
+        // $user  = Http::get('http://127.0.0.1:8000/api/user-profile');
         
-        dd($user);
-        $message = "error";
-        if($user->successful()){
-            return view('users', compact('user'));
-        }else{
-            return view('users', compact('message'));
-        }
+        // dd($user);
+        // $message = "error";
+        // if($user->successful()){
+        //     return view('users', compact('user'));
+        // }else{
+        //     return view('users', compact('message'));
+        // }
+
+        return view('users');
 
     }
     public function login(Request $request){
@@ -35,5 +37,15 @@ class UserController extends Controller
         $user  = Http::post("http://127.0.0.1:8000/api/login?email={{$request->email}}?
         password={{$request->password}}?token={{$request->_token}}");
         dd($user);
+    }
+
+    public function loginwith(Request $request){
+        $data = $request->all();
+        // dd($data);
+        $response = Http::withHeaders([
+            'content-type'=>'application/json'
+        ])->post('http://127.0.0.1:8000/api/auth/login',$data);
+
+        return $response;
     }
 }

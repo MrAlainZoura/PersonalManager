@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-
+use Illuminate\Support\Facades\Http;
 
 class AuthController extends Controller
 {
@@ -77,5 +77,15 @@ class AuthController extends Controller
             'message'=>'you have been logout',
             'data'=>[]
         ],200);
+    }
+
+    public function loginwith(Request $request){
+        $data = $request->all();
+        dd($data);
+        $response = Http::withHeaders([
+            'content-type'=>'application/json'
+        ])->post('http://127.0.0.1:8000/api/auth/login',$data);
+
+        return $response;
     }
 }
