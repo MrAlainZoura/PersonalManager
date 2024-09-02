@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Departement extends Model
+class Section extends Model
 {
     use HasFactory;
     protected $fillable = [
@@ -15,10 +15,10 @@ class Departement extends Model
         'statut',
         'date_fermeture',
         'longitude',
-        'latitude'
+        'latitude',
+        'departement_id'
     ];
-
-    public function section(){
-        return $this->hasMany(Section::class);
+    public function departement(){
+        return $this->belongsTo(Departement::class);
     }
 }
