@@ -3,15 +3,10 @@
 
     <table id="table-users">
     <tr>
-        <th>Company</th>
-        <th>Contact</th>
-        <th>Country</th>
+        <th>Nom</th>
+        <th>Email</th>
     </tr>
-    <tr>
-        <td>Alfreds Futterkiste</td>
-        <td>Maria Anders</td>
-        <td>Germany</td>
-    </tr>
+    
     
     </table>
 </body>
@@ -21,15 +16,14 @@
             // event.preventDefault()
             $.ajax({
                 url:"http://127.0.0.1:8000/api/all-users",
-                type:"POST",
+                type:"get",
                 headers:{'Authorization':token},
                 success: function(data){
-                    $.each(data, function(index, val){
+                    console.log(data)
+                    $.each(data.users, function(index, val){
                         var tr = $("<tr></tr>")
                         tr.append("<td>"+val.name+"</td>")
                         tr.append("<td>"+val.email+"</td>")
-                        tr.append("<td>"+val.id+"</td>")
-
                         $('#table-users').append(tr)
                     })
                 }

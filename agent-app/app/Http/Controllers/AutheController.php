@@ -14,6 +14,7 @@ class AutheController extends Controller
 {
 
     public function alls(){
+
         $all = User::all();
         return response()->json([
             'message'=>"success",
@@ -42,10 +43,12 @@ class AutheController extends Controller
 
         $token = auth('api')->login($user);
         return $this->respondWithToken($token);
+        // return response()->json($user);
    } 
    
     public function login()
     {
+        // return response()->json(request());
         $credentials = request(['email', 'password']);
 
         if (! $token = auth('api')->attempt($credentials)) {

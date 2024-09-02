@@ -137,9 +137,12 @@
                     
                     data: formData,
                     success: function(data){
-                        console.log(data)
+                        console.log(data.access_token)
                         if(data.access_token != null){
-                            // window.open('/users','_self')
+                            $('#email').attr('value',"")
+                            $('#name').attr('value',"")
+                            $('.id').attr('value',"")
+                            window.open('/users','_self')
                         }
                         
                     }

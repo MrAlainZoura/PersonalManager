@@ -29,6 +29,5 @@ Route::middleware(['auth:api'])->group(function (){
     Route::post('refresh', [AutheController::class,'refresh']);
     Route::post('me', [AutheController::class,'me']);
     Route::post('profile-update', [AutheController::class,'update']);
-    
+    Route::get('all-users', [AutheController::class, 'alls']);
 });
-Route::get('all-users', [AutheController::class, 'alls']);
