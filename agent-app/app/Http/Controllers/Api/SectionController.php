@@ -3,41 +3,26 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
-use App\Models\Departement;
+use App\Models\Section;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
-class DepartementController extends Controller
+class SectionController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        $departements  = Departement::latest()->get();
+        $sections  = Section::latest()->get();
         return response()->json([
             'sucess'=>true,
-            'departements'=>$departements
+            'departements'=>$sections
         ]);
     }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $validattion = Validator::make($request->all(), [
-            'libele'=>'required|string|min:6|max:255|unique:departements',
+            'libele'=>'required|string|min:6|max:255|unique:sections',
             'description'=>'required|string',
             'date_creation'=>'required|date',
         ]);
@@ -56,42 +41,35 @@ class DepartementController extends Controller
             'latitude'=>$request->latitude,
             'user_id'=>Auth::user()->id
         ];
-        $departement = Departement::create($insert);
+        $section = Section::create($insert);
 
-        if($departement){
-        return response()->json([
-            'sucess'=>true,
-            'departement'=>$departement
-        ]);
-    }else{
-         return response()->json([
-            'sucess'=>false,
-        ]);
+        if($section){
+            return response()->json([
+                'sucess'=>true,
+                'departement'=>$section
+            ]);
+        }else{
+            return response()->json([
+                'sucess'=>false,
+            ]);
+        }
     }
-    }
-
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
-        $departement = Departement::find($id);
+        $section = Section::find($id);
 
-        if($departement){
-        return response()->json([
-            'sucess'=>true,
-            'departement'=>$departement
-        ]);
-    }else{
-        return response()->json([
-            'sucess'=>false,
-        ]);
-    }
+        if($section){
+            return response()->json([
+                'sucess'=>true,
+                'departement'=>$section
+            ]);
+        }else{
+            return response()->json([
+                'sucess'=>false,
+            ]);
+        }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function update(Request $request)
     {
         $validattion = Validator::make($request->all(), [
@@ -105,7 +83,7 @@ class DepartementController extends Controller
             return response()->json($validattion->errors());
         }
 
-        $departement = DB::table('departements')
+        $departement = DB::table('sections')
                         ->where('id', $request->id)
                         ->update([
                             'libele'=>$request->libele,
@@ -118,23 +96,7 @@ class DepartementController extends Controller
                         ]);
         return response()->json([
             'sucess'=>true,
-            'departement'=>Departement::findOrFail($request->id)
+            'departement'=>Section::findOrFail($request->id)
         ]);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    // public function update(Request $request, string $id)
-    // {
-    //     //
-    // }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
     }
 }

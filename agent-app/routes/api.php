@@ -3,6 +3,7 @@
 // use App\Http\Controllers\Api\AuthController;
 
 use App\Http\Controllers\api\DepartementController;
+use App\Http\Controllers\api\SectionController;
 use App\Http\Controllers\AutheController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -36,3 +37,6 @@ Route::middleware(['auth:api'])->group(function (){
 });
 Route::post('update-departement',[DepartementController::class, 'update']);
 Route::apiResource('departements', DepartementController::class);
+
+Route::post('update-section',[SectionController::class, 'update']);
+Route::apiResource('sections', SectionController::class);
