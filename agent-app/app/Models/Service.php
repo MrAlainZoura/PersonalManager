@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Section extends Model
+class Service extends Model
 {
     use HasFactory;
     protected $fillable = [
@@ -14,14 +14,9 @@ class Section extends Model
         'date_creation',
         'statut',
         'date_fermeture',
-        'longitude',
-        'latitude',
-        'departement_id'
+        'section_id'
     ];
-    public function departement(){
-        return $this->belongsTo(Departement::class);
-    }
-    public function service(){
-        return $this->hasMany(Service::class);
+    public function section(){
+        return $this->belongsTo(Section::class);
     }
 }

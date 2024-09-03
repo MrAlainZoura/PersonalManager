@@ -4,6 +4,7 @@
 
 use App\Http\Controllers\api\DepartementController;
 use App\Http\Controllers\api\SectionController;
+use App\Http\Controllers\api\ServiceController;
 use App\Http\Controllers\AutheController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -40,3 +41,6 @@ Route::apiResource('departements', DepartementController::class);
 
 Route::post('update-section',[SectionController::class, 'update']);
 Route::apiResource('sections', SectionController::class);
+
+Route::post('update-service',[ServiceController::class, 'update']);
+Route::apiResource('service', ServiceController::class);

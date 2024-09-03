@@ -3,26 +3,39 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
-use App\Models\Section;
+use App\Models\Service;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
-class SectionController extends Controller
+class ServiceController extends Controller
 {
-    public function index()
-    {
-        $sections  = Section::latest()->get();
+    public function index(){
+        $service  = Service::latest()->get();
         return response()->json([
             'sucess'=>true,
-            'sections'=>$sections
+            'service'=>$service
         ]);
     }
-    public function store(Request $request)
-    {
+    public function show(int $id){
+        $service = Service::find($id);
+
+        if($service){
+            return response()->json([
+                'sucess'=>true,
+                'service'=>$service
+            ]);
+        }else{
+            return response()->json([
+                'sucess'=>false,
+            ]);
+        }
+    }
+
+    public function store(Request $request){
         $validattion = Validator::make($request->all(), [
-            'libele'=>'required|string|min:6|max:255|unique:sections',
+            'libele'=>'required|string|min:6|max:255|unique:services',
             'description'=>'required|string',
             'date_creation'=>'required|date',
         ]);
@@ -40,14 +53,14 @@ class SectionController extends Controller
             'longitude'=>$request->longitude,
             'latitude'=>$request->latitude,
             'user_id'=>Auth::user()->id,
-            'departement_id'=>$request->departement->id
+            'section_id'=>$request->section_id
         ];
-        $section = Section::create($insert);
+        $service = Service::create($insert);
 
-        if($section){
+        if($service){
             return response()->json([
                 'sucess'=>true,
-                'section'=>$section
+                'service'=>$service
             ]);
         }else{
             return response()->json([
@@ -55,24 +68,7 @@ class SectionController extends Controller
             ]);
         }
     }
-    public function show(string $id)
-    {
-        $section = Section::find($id);
-
-        if($section){
-            return response()->json([
-                'sucess'=>true,
-                'section'=>$section
-            ]);
-        }else{
-            return response()->json([
-                'sucess'=>false,
-            ]);
-        }
-    }
-
-    public function update(Request $request)
-    {
+    public function update(Request $request){
         $validattion = Validator::make($request->all(), [
             'libele'=>'required|string|min:6|max:255',
             'description'=>'required|string',
@@ -84,7 +80,7 @@ class SectionController extends Controller
             return response()->json($validattion->errors());
         }
 
-        $departement = DB::table('sections')
+        $departement = DB::table('services')
                         ->where('id', $request->id)
                         ->update([
                             'libele'=>$request->libele,
@@ -97,7 +93,7 @@ class SectionController extends Controller
                         ]);
         return response()->json([
             'sucess'=>true,
-            'departement'=>Section::findOrFail($request->id)
+            'service'=>Service::findOrFail($request->id)
         ]);
     }
 }
