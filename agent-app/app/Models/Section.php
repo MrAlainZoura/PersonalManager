@@ -24,4 +24,7 @@ class Section extends Model
     public function service(){
         return $this->hasMany(Service::class);
     }
+    public function agent(){
+        return $this->hasMany(Agent::class);
+    }
 }

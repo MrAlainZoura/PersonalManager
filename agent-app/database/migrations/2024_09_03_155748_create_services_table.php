@@ -21,7 +21,7 @@ return new class extends Migration
                 ->cascadeOnUpdate();
             $table->foreignId('section_id')
                 ->references('id')
-                ->on('section')
+                ->on('sections')
                 ->constrained()
                 ->noActionOnDelete()
                 ->cascadeOnUpdate();
