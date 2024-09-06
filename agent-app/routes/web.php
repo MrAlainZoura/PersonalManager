@@ -15,7 +15,7 @@ Route::post('users-register',[UserController::class, 'register'])->name('registe
 Route::get('users',[UserController::class, 'index']);
 
 Route::group(['middleware'=>'userAdmin'], function(){
-    Route::get('/dashoard', function () {
+    Route::get('/dashboard', function () {
     return view('auth.dashboard');
     });
 });

@@ -18,6 +18,7 @@ class AuthadminMiddleware
         if(!empty(Auth::check())){
             return $next($request);
         }else{
+            // dd(Auth::user());
             return redirect(url('/'));
         }
        
