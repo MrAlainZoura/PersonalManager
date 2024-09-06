@@ -5,13 +5,17 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('login');
+    return view('auth.login');
 });
-Route::get('/profile', function () {
-    return view('profile');
-});
+
 
 Route::get('users',[UserController::class, 'index']);
 Route::post('users-login',[UserController::class, 'loginwith'])->name('login');
 Route::post('users-register',[UserController::class, 'register'])->name('register');
 Route::get('users',[UserController::class, 'index']);
+
+Route::group(['middleware'=>'userAdmin'], function(){
+    Route::get('/dashoard', function () {
+    return view('auth.dashboard');
+    });
+});
