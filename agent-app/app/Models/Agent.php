@@ -20,9 +20,13 @@ class Agent extends Model
         'grade',
         'statut',
         'service_id',
+        'role_id'
     ];
 
     public function service (){
         return $this->belongsTo(Service::class);
+    }
+    public function role(){
+        return $this->belongsTo(Role::class);
     }
 }

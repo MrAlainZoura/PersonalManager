@@ -15,12 +15,12 @@ class AuthadminMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(!empty(Auth::check())){
-            return $next($request);
-        }else{
-            // dd(Auth::user());
-            return redirect(url('/'));
-        }
+        // if(!empty(Auth::check())){}else{
+        //     // dd(Auth::user());
+        //     return redirect(url('/'));
+        // }
        
+            return $next($request);
+        
     }
 }
