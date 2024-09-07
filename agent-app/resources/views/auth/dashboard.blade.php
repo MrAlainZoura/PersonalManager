@@ -278,34 +278,34 @@ c:\Users\Academy\Downloads\NiceAdmin\assets<!DOCTYPE html>
       <li class="nav-heading">Pages</li>
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="users-profile.html">
+        <a class="nav-link collapsed" href="#">
           <i class="bi bi-person"></i>
           <span>Admin</span>
         </a>
       </li><!-- End Profile Page Nav -->
       <li class="nav-item">
-        <a class="nav-link collapsed" href="users-profile.html">
+        <a class="nav-link collapsed" href="#">
           <i class="bi bi-person"></i>
           <span>User</span>
         </a>
       </li><!-- End Profile Page Nav -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="pages-faq.html">
+        <a class="nav-link collapsed" href="{{route('rolecreate')}}">
           <i class="bi bi-question-circle"></i>
-          <span>F.A.Q</span>
+          <span>Role</span>
         </a>
       </li><!-- End F.A.Q Page Nav -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="pages-contact.html">
+        <a class="nav-link collapsed" href="#">
           <i class="bi bi-envelope"></i>
           <span>Contact</span>
         </a>
       </li><!-- End Contact Page Nav -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="pages-register.html">
+        <a class="nav-link collapsed" href="#">
           <i class="bi bi-card-list"></i>
           <span>Register</span>
         </a>
@@ -320,7 +320,7 @@ c:\Users\Academy\Downloads\NiceAdmin\assets<!DOCTYPE html>
       <h1>Dashboard</h1>
       <nav>
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item"><a href="#">Home</a></li>
           <li class="breadcrumb-item active">Dashboard</li>
         </ol>
       </nav>
@@ -692,27 +692,40 @@ c:\Users\Academy\Downloads\NiceAdmin\assets<!DOCTYPE html>
             </div>
 
             <div class="card-body">
-              <h5 class="card-title">Recent Activity <span>| Today</span></h5>
+              <h5 class="card-title">Different Role<span>| Agent</span></h5>
 
               <div class="activity">
-
-                <div class="activity-item d-flex">
-                  <div class="activite-label">32 min</div>
-                  <i class='bi bi-circle-fill activity-badge text-success align-self-start'></i>
+                  @foreach($role as $key=>$val)
+                 
+                  @if($val->libele == 'Normal')
+                  <div class="activity-item d-flex">
+                  <div class="activite-label">?? agent</div>
+                  <i class='bi bi-circle-fill activity-badge text-warning align-self-start'></i>
                   <div class="activity-content">
-                    Quia quae rerum <a href="#" class="fw-bold text-dark">explicabo officiis</a> beatae
+                  {{ $val->libele}}
                   </div>
-                </div><!-- End activity item-->
-
-                <div class="activity-item d-flex">
-                  <div class="activite-label">56 min</div>
+                </div>
+                  @endif
+                  @if($val->libele == 'Employe')
+                  <div class="activity-item d-flex">
+                  <div class="activite-label">??agent</div>
                   <i class='bi bi-circle-fill activity-badge text-danger align-self-start'></i>
                   <div class="activity-content">
-                    Voluptatem blanditiis blanditiis eveniet
+                  {{ $val->libele}}
                   </div>
-                </div><!-- End activity item-->
-
-                <div class="activity-item d-flex">
+                </div>
+                  @endif
+                  @if($val->libele == 'Admin')
+                  <div class="activity-item d-flex">
+                    <div class="activite-label">??Agent</div>
+                    <i class='bi bi-circle-fill activity-badge text-success align-self-start'></i>
+                    <div class="activity-content">
+                      {{$val->libele}}
+                    </div>
+                  </div>
+                  @endif
+                  @if($val->libele == "")
+                  <div class="activity-item d-flex">
                   <div class="activite-label">2 hrs</div>
                   <i class='bi bi-circle-fill activity-badge text-primary align-self-start'></i>
                   <div class="activity-content">
@@ -742,7 +755,11 @@ c:\Users\Academy\Downloads\NiceAdmin\assets<!DOCTYPE html>
                   <div class="activity-content">
                     Dicta dolorem harum nulla eius. Ut quidem quidem sit quas
                   </div>
-                </div><!-- End activity item-->
+                </div>
+                  @endif
+
+                  @endforeach
+
 
               </div>
 

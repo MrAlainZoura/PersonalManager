@@ -52,7 +52,7 @@ class AutheController extends Controller
         $credentials = request(['email', 'password']);
 
         if (! $token = auth('api')->attempt($credentials)) {
-            return response()->json(['error' => 'Unauthorized','koten'=>$token], 401);
+            return response()->json(['message'=>'email ou mot de passe incorrect']);
         }
 
         return $this->respondWithToken($token);
@@ -125,7 +125,7 @@ class AutheController extends Controller
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
-            'expires_in' => auth('api')->factory()->getTTL() * 60
+            'expires_in' => auth('api')->factory()->getTTL() * 240
         ]);
     }
 }

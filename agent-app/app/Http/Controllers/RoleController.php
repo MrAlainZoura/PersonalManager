@@ -22,7 +22,7 @@ class RoleController extends Controller
      */
     public function create()
     {
-        //
+        return view("roles.index");
     }
 
     /**
@@ -34,6 +34,10 @@ class RoleController extends Controller
             'libele'=>'required|min:4|max:255|unique:roles'
         ]);
 
+        if($validattion->fails()){
+            
+            return back()->with('echec',"Rassurez vous  que ce role n'existe pas et doit avoir au moins 4 caracteres");
+        }
             $role = Role::create([
                 'libele'=>$request->libele,
             ]);

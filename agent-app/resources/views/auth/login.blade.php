@@ -60,6 +60,7 @@
                   <form id="login-form" action="" method="post" class="row g-3 needs-validation" novalidate>
                     @csrf
                     @method('post')
+                    <div class="erreur" role="alert"></div>   
                     <div class="col-12">
                       <label for="yourUsername" class="form-label">Username</label>
                       <div class="input-group has-validation">
@@ -118,10 +119,7 @@
         $(document).ready(function (){
             $('#login-form').submit(function (event){
                 event.preventDefault();
-                $('#error').removeClass("hidden").addClass(" flex items-center p-4 mb-4 text-sm text-red-800 border border-red-300 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 dark:border-red-800")
-
                 var formData = $(this).serialize();
-
                 $.ajax({
                     type:"POST",
                     dataType: 'json',
@@ -137,11 +135,20 @@
                     
                     data: formData,
                     success: function(data){
+                      console.log(data)
                         if(data.access_token != null){
                             localStorage.setItem('user_token', data.token_type+" "+data.access_token)
                             console.log(data)
                             window.open('/dashboard','_self')
                         }else{
+                          if(data.message != null){
+                            console.log(data)
+                            var erreur = $('<label></label>')
+                            erreur.append(data.message)
+                            $('.erreur').append(erreur)
+                            $('.erreur').removeClass("erreur").addClass("alert alert-danger alert-dismissible fade show")
+
+                          }
                         }
                     }
                 })
