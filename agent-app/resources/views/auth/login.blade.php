@@ -141,10 +141,10 @@
                             console.log(data)
                             window.open('/dashboard','_self')
                         }else{
-                          if(data.message != null){
+                          if(data.error != null){
                             console.log(data)
                             var erreur = $('<label></label>')
-                            erreur.append(data.message)
+                            erreur.append(data.error)
                             $('.erreur').append(erreur)
                             $('.erreur').removeClass("erreur").addClass("alert alert-danger alert-dismissible fade show")
 

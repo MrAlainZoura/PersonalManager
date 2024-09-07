@@ -305,7 +305,7 @@ c:\Users\Academy\Downloads\NiceAdmin\assets<!DOCTYPE html>
       </li><!-- End Contact Page Nav -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="#">
+        <a class="nav-link collapsed" href="{{route('agent.create')}}">
           <i class="bi bi-card-list"></i>
           <span>Register</span>
         </a>
@@ -1015,12 +1015,17 @@ c:\Users\Academy\Downloads\NiceAdmin\assets<!DOCTYPE html>
                 type:"POST",
                 headers:{'Authorization':token},
                 success: function(data){
-
+                  console.log(data)
+                    if(data.error != null){
+                      localStorage.removeItem('user_token')
+                    }
                     $('.nom').text(data.name)
                     $('.email').text(data.email)
                     $('#mail').attr('value',data.email)
                     $('#nom').attr('value',data.name)
                     $('.id').attr('value',data.id)
+
+                    
                 }
             })
           })

@@ -15,12 +15,13 @@ class Agent extends Model
         'email',
         'genre',
         'date_naissance',
-        'engagement',
+        'date_engagement',
         'fonction',
         'grade',
         'statut',
         'service_id',
-        'role_id'
+        'role_id',
+        'matricule'
     ];
 
     public function service (){

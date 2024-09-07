@@ -52,7 +52,7 @@ class AutheController extends Controller
         $credentials = request(['email', 'password']);
 
         if (! $token = auth('api')->attempt($credentials)) {
-            return response()->json(['message'=>'email ou mot de passe incorrect']);
+            return response()->json(['error'=>'email ou mot de passe incorrect']);
         }
 
         return $this->respondWithToken($token);
@@ -61,7 +61,14 @@ class AutheController extends Controller
    
     public function me()
     {
-        return response()->json(auth('api')->user());
+        if(auth('api')->user()){
+            return response()->json(auth('api')->user());
+        }else{
+            return response()->json([
+                'error'=>'priere de vous connecter'
+            ]);
+        }
+        
     }
 
     

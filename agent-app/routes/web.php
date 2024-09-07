@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AgentController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\RoleController;
@@ -21,3 +22,5 @@ Route::group(['middleware'=>'userAdmin'], function(){
     
 });
 Route::post('/dashboard/role/store', [RoleController::class, 'store'])->name('rolestore');
+Route::post('/agent/store', [AgentController::class, 'store'])->name('agent.store');
+Route::get('/agent/create', [AgentController::class, 'create'])->name('agent.create');

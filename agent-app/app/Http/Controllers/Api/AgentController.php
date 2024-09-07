@@ -46,25 +46,25 @@ class AgentController extends Controller
             return response()->json($validattion->errors());
         }
         $insert = [
-            'user_id'=>Auth::user()->id,
-            'nom=>$request-',
-            'postnom',
-            'prenom',
-            'genre',
-            'date_naissance',
-            'engagement',
-            'fonction',
-            'grade',
-            'statut',
-            'service_id',
-            'user_id'
+            'user_id'=>$request->userid,
+            'nom'=>$request->nom,
+            'postnom'=>$request->postnom,
+            'prenom'=>$request->prenom,
+            'genre'=>$request->genre,
+            'date_naissance'=>$request->date_naissance,
+            'engagement'=>$request->engagement,
+            'fonction'=>$request->fonction,
+            'grade'=>$request->grave,
+            'statut'=>'en activité',
+            'service_id'=>$request->service_id,
+            'user_id'=>$request->user_id
         ];
-        $departement = Agent::create($insert);
+        $agent = Agent::create($insert);
 
-        if($departement){
+        if($agent){
         return response()->json([
             'sucess'=>true,
-            'departement'=>$departement
+            'departement'=>$agent
         ]);
     }else{
          return response()->json([
