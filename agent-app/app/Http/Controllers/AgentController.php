@@ -34,7 +34,7 @@ class AgentController extends Controller
      */
     public function store(StoreAgentRequest $request)
     {
-        // dd($request->all());
+        
         $validattion = Validator::make($request->all(), [
             'nom'=>'required|string|min:3|max:255',
             'matricule'=>'required|string|min:3|max:255',
@@ -51,25 +51,24 @@ class AgentController extends Controller
             $message = $validattion->errors();
             return back()->with('echec', $message);
         }
-        // dd($request->engagement);$insert = ;
-        $date = $request->engagement;
-        // dd($date);
-        $agent = Agent::create([
+        
+        $insert = [
             'nom'=>$request->nom,
             'postnom'=>$request->postnom,
             'prenom'=>$request->prenom,
             'genre'=>$request->genre,
             'email'=>$request->email,
             'date_naissance'=>$request->date_naissance,
-            'date_engagement'=>"2024-09-19",
+            'date_engagement'=>$request->engagement,
             'fonction'=>$request->fonction,
-            'grade'=>$request->grave,
+            'grade'=>$request->grade,
             'matricule'=>$request->matricule,
             'statut'=>'En activité',
             'service_id'=>$request->service_id,
             'user_id'=>$request->user_id,
             'role_id'=>$request->role_id
-        ]);
+        ];
+        $agent = Agent::create($insert);
 
         if($agent){
             return back()->with('success', "Agent $agent->nom enregistré avec success");

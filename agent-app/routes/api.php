@@ -2,6 +2,7 @@
 
 // use App\Http\Controllers\Api\AuthController;
 
+use App\Http\Controllers\api\AgentController;
 use App\Http\Controllers\api\DepartementController;
 use App\Http\Controllers\api\SectionController;
 use App\Http\Controllers\api\ServiceController;
@@ -34,7 +35,6 @@ Route::middleware(['auth:api'])->group(function (){
     Route::post('me', [AutheController::class,'me']);
     Route::post('profile-update', [AutheController::class,'update']);
     Route::get('all-users', [AutheController::class, 'alls']);
-    
 });
 Route::post('update-departement',[DepartementController::class, 'update']);
 Route::apiResource('departements', DepartementController::class);
@@ -44,3 +44,4 @@ Route::apiResource('sections', SectionController::class);
 
 Route::post('update-service',[ServiceController::class, 'update']);
 Route::apiResource('service', ServiceController::class);
+Route::get('agent-show', [AgentController::class,'show']);

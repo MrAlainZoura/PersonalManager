@@ -55,7 +55,7 @@ class AgentController extends Controller
             'engagement'=>$request->engagement,
             'fonction'=>$request->fonction,
             'grade'=>$request->grave,
-            'statut'=>'en activité',
+            'statut'=>'En activité',
             'service_id'=>$request->service_id,
             'user_id'=>$request->user_id
         ];
@@ -76,9 +76,32 @@ class AgentController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Request $request)
     {
-        //
+        $validattion = Validator::make($request->all(), [
+            'nom'=>'required|string',
+            'email'=>'required|string|email'
+        ]);
+
+        
+        if($validattion->fails()){
+            return response()->json($validattion->errors());
+        }
+        $email = $request->email;
+        $nom = $request->nom;
+
+        $agent = Agent::where('email',$email)->where('nom',$nom)->first();
+        if ($agent) {
+            return response()->json([
+                'success'=>true,
+                'agent'=>$agent
+            ]);
+        } else {
+            return response()->json([
+                'success'=>false,
+            ]);
+        }
+        
     }
 
     /**
