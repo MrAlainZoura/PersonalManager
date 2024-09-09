@@ -14,7 +14,9 @@ class Presence extends Model
         'confirmation',
         'long',
         'lat',
-        'distance'
+        'distance',
+        'h_arrive',
+        'h_sortie'
     ];
 }
     

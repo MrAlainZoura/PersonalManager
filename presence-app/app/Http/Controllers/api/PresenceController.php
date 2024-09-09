@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\api;
 
-use App\Http\Controllers\Controller;
+use Carbon\Carbon;
 use App\Models\Presence;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
+use App\Http\Controllers\Controller;
 use illuminate\Http\Client\Response;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
 
 class PresenceController extends Controller
@@ -34,42 +35,83 @@ class PresenceController extends Controller
     {
         $validattion = Validator::make($request->all(), [
             'nom'=>'required|string',
-            'email'=>'required|email'
+            'email'=>'required|email',
         ]);
 
-        
+        $h_arrive0 = Carbon::now();
+        $h_arrive = $h_arrive0->format('Y-m-d H:i:s');
+
+        $service_h = Carbon::createFromFormat('H:i','07:00');
+        $arrive_serv = Carbon::createFromFormat('H:i',$h_arrive0->format('H:i'));
+        // return 'on teste heure';
+        if($arrive_serv <= $service_h){
+            return 'non peut pas signer';
+        }
+      
         if($validattion->fails()){
             $message = $validattion->errors();
-            return back()->with('echec', $message);
+            return response()->json(['error'=>$message]);
         }
+
         //recuperer agent à partir de son email et nom via l'api
-        $agent = {};
+        $agent = Http::get('http://127.0.0.1:8000/api/agent-show/?nom='.$request->nom.'&email='.$request->email);
         //je recupere l'id de service et la localisation 
+
+        if($agent->successful()){
+            $agent_trouver = $agent->object();
+        }else{
+            $agent_trouvrer = null;
+            return response()->json([
+                'error'=>"Erreur d'identification de l'agent",
+                'success'=>false
+            ]);
+        }
         
-        $service = "$agent->service_id element de recherche";
-        $lon="$service lon";
-        $lat="$service lat";
+        $service  = Http::get('http://127.0.0.1:8000/api/service/?'.$agent_trouver->agent->service_id);
         
-        $position = $this->getPerimetre($lon, $lat);
-        if($position){
+        if ($service->successful()) {
+            $service_trouver = $service->object();
+            foreach($service_trouver->service as $key=>$val){
+                $long=$val->long;
+                $lat=$val->lat;
+            }
+        } else {
+                $long=null;
+                $lat=null;
+        }
+        
+        if ($long != null && $lat != null) {
+            $position = $this->getPerimetre((float)$long, (float)$lat);
             $confirmation = $position['confirmation'];
             $distance = $position['distance'];
             $long_ag = $position['long_ag'];
             $lat_ag = $position['lat_ag'];
+            
+        } else {
+            $confirmation = false;
+            $distance = null;
+            $long_ag = null;
+            $lat_ag = null;
         }
-
         $insert = [
-            'email'=>$agent->email,
-            'nom'=>$agent->nom,
+            'email'=>$agent_trouver->agent->email,
+            'nom'=>$agent_trouver->agent->nom,
             'confirmation'=>$confirmation,
             'long'=>$long_ag,
             'lat'=>$lat_ag,
-            'distance'=>$distance
+            'distance'=>$distance,
+            'h_arrive'=>$h_arrive,
+            'h_sortie'=>null
         ];
 
+        // return response()->json($insert);
+        
         $presence = Presence::create($insert);
         if($presence){
-            
+            return response()->json([
+                'success'=>true,
+                'presence'=>$presence
+            ]);
         }else{
             return response()->json([
                 'success'=>false,
@@ -83,7 +125,7 @@ class PresenceController extends Controller
      */
     public function show(string $id)
     {
-        //
+        return response()->json(['success'=>true]);
     }
 
     /**
@@ -124,13 +166,31 @@ class PresenceController extends Controller
         return $mettres;
     }
     public function getPerimetre($long, $lat){
+
         $coord_bureau = ["long"=>$long, "lat"=>$lat];
-        $ip = Http::get('https://api.ipify.org');
+
+        $data = [
+            'message'=>'il n est pas dans le perimetre',
+            'distance'=>null,
+            'confirmation'=>false,
+            'long_ag'=>null,
+            'lat_ag'=>null,
+        ];
+
+        $ip = Http::timeout(30)->get('https://api.ipify.org');
+
+        if(!$ip->successful()){
+            return $data;
+        }
+
         $url = "http://ip-api.com/json/".$ip;
+        $agent = Http::timeout(30)->get($url);
 
-        $agent = Http::get($url);
+        if(!$agent->successful()){
+            return $data;
+        }
 
-        if($agent->successful()){
+        if($agent->successful() AND $ip->successful()){
 
             $localisation = $agent->object();
 
@@ -150,11 +210,12 @@ class PresenceController extends Controller
                 ];
                  return $data;
             }else{
-                
                 $data = [
                     'message'=>'il n est pas dans le perimetre',
                     'distance'=>$distance,
-                    'confirmation'=>false
+                    'confirmation'=>false,
+                    'long_ag'=>$longititude,
+                    'lat_ag'=>$lattitude,
                 ];
                 return $data;
             }

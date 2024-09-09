@@ -31,7 +31,7 @@ class PresenceController extends Controller
      */
     public function store(StorePresenceRequest $request)
     {
-        //
+        return response()->json(['success'=>true]);
     }
 
     /**
