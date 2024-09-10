@@ -17,7 +17,11 @@ class PresenceController extends Controller
      */
     public function index()
     {
-        //
+        $presence = Presence::latest()->get();
+        return response()->json([
+            'success'=>true,
+            'presences'=>$presence
+        ]);
     }
 
     /**
@@ -83,7 +87,7 @@ class PresenceController extends Controller
             $date = Carbon::parse($verif_prese->h_arrive)->format('Y-m-d');
             $today = $h_arrive0->format('Y-m-d');
 
-            if($date == '2024-09-09'){
+            if($date == $today){
                 return response()->json([
                     'success'=>true,
                     'message'=>'Signer la sortie et revenez le prochain jour de travail'
@@ -126,8 +130,6 @@ class PresenceController extends Controller
             'h_arrive'=>$h_arrive,
             'h_sortie'=>null
         ];
-
-        // return response()->json($insert);
         
         $presence = Presence::create($insert);
         if($presence){
@@ -162,11 +164,60 @@ class PresenceController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request)
-    {
+
+     public function updateSortie(Request $request){
+        $getTimeNow = Carbon::now();
+        $now =$getTimeNow->format('Y-m-d H:i:s');
+
         $validattion = Validator::make($request->all(), [
             'id'=>'required|int',
-            'confirmation'=>'required|bool',
+        ]);
+
+        if($validattion->fails()){
+            $message = $validattion->errors();
+            return response()->json(['error'=>$message]);
+        }
+        $presence = Presence::where('id',$request->id)->first();
+
+        if(!$presence){
+            return response()->json([
+                'success'=>false,
+                'error'=>'Une erreur s est produite rvenez plus tard',
+            ]);
+        }
+        $limite = Carbon::createFromFormat('Y-m-d H:i:s',$presence->h_arrive,'UTC');
+        $jourHier = Carbon::createFromFormat('Y-m-d',$limite->format('Y-m-d'),'UTC')->setTime(23,00,00);
+
+        if($now >= $jourHier){
+            return response()->json([
+                'success'=>false,
+                'echec'=>'Le temps est dépassé',
+            ]);
+        }
+        $update = Presence::where('id',$request->id)->update(['h_sortie' => $now]);
+        if($update){
+            return response()->json([
+                'success'=>true,
+                'message'=>'Sortie enregistrée avec success',
+                'presence'=>Presence::find($presence->id)
+            ]);
+        }else{
+            return response()->json([
+                'success'=>false,
+                'error'=>'Une erreur s est produite lors de la mise à jour de cette présence',
+            ]);
+        }
+
+
+     }
+    public function update(Request $request)
+    {          
+        $getTimeNow = Carbon::now();
+        $now =$getTimeNow->format('Y-m-d H:i:s');//maintenant temps de la requette        
+        // return [$today, $now];
+
+        $validattion = Validator::make($request->all(), [
+            'id'=>'required|int',
         ]);
 
         if($validattion->fails()){
@@ -175,11 +226,39 @@ class PresenceController extends Controller
         }
 
         $presence = Presence::find($request->id);
+        // return $presence;
         if($presence){
-            // return $presence;
-            $verif_delai = $presence->h_arrive;
-            return $verif_delai;
-            $presence->update(['confirmation'=>$request->confirmation]);
+          
+            $limite = Carbon::createFromFormat('Y-m-d H:i:s',$presence->h_arrive,'UTC');
+            $jourHier = Carbon::createFromFormat('Y-m-d',$limite->format('Y-m-d'),'UTC')->setTime(00,00,00);
+            $today = $jourHier->addDay()->addHours(12);
+
+            if($now >= $today){
+                return response()->json([
+                    'success'=>false,
+                    'error'=>'Tentative de corruption, dépasser 12h00 la présence ne peut être modifiée'
+                ]);
+            }
+            // return ["on peut modifier"];
+            $update = Presence::where('id',$request->id)->update(['confirmation' => true]);
+            if($update){
+                return response()->json([
+                    'success'=>true,
+                    'message'=>'Présence mise à jour avec success',
+                    'presence'=>$presence
+                ]);
+            }else{
+                return response()->json([
+                    'success'=>false,
+                    'error'=>'Une erreur s est produite lors de la mise à jour de cette présence',
+                ]);
+            }
+            }else{
+            return response()->json([
+                'success'=>false,
+                'error'=>'Une erreur s est produite reessayer plus tard'
+                
+            ]);
         }
     }
 
