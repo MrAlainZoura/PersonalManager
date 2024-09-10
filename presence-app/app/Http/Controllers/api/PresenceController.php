@@ -44,8 +44,11 @@ class PresenceController extends Controller
         $service_h = Carbon::createFromFormat('H:i','07:00');
         $arrive_serv = Carbon::createFromFormat('H:i',$h_arrive0->format('H:i'));
         // return 'on teste heure';
-        if($arrive_serv <= $service_h){
-            return 'non peut pas signer';
+        if($arrive_serv < $service_h){
+            return response()->json([
+                'error'=>"Le service ne commence pas avant 7H",
+                'success'=>false
+            ]);
         }
       
         if($validattion->fails()){
@@ -59,14 +62,34 @@ class PresenceController extends Controller
 
         if($agent->successful()){
             $agent_trouver = $agent->object();
+            if($agent_trouver->success != true){
+                
+                return response()->json([
+                    'error'=>"Erreur d'identification de l'agent",
+                    'success'=>false
+                ]);
+            }
         }else{
-            $agent_trouvrer = null;
+
             return response()->json([
                 'error'=>"Erreur d'identification de l'agent",
                 'success'=>false
             ]);
         }
         
+        //verifier si presence existe deja pour ce jour
+        $verif_prese = Presence::where('email',$request->email)->where('nom',$request->nom)->latest()->first();
+        if($verif_prese->count() > 0){
+            $date = Carbon::parse($verif_prese->h_arrive)->format('Y-m-d');
+            $today = $h_arrive0->format('Y-m-d');
+
+            if($date == '2024-09-09'){
+                return response()->json([
+                    'success'=>true,
+                    'message'=>'Signer la sortie et revenez le prochain jour de travail'
+                ]);
+            } 
+        }
         $service  = Http::get('http://127.0.0.1:8000/api/service/?'.$agent_trouver->agent->service_id);
         
         if ($service->successful()) {
@@ -139,9 +162,25 @@ class PresenceController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request)
     {
-        //
+        $validattion = Validator::make($request->all(), [
+            'id'=>'required|int',
+            'confirmation'=>'required|bool',
+        ]);
+
+        if($validattion->fails()){
+            $message = $validattion->errors();
+            return response()->json(['error'=>$message]);
+        }
+
+        $presence = Presence::find($request->id);
+        if($presence){
+            // return $presence;
+            $verif_delai = $presence->h_arrive;
+            return $verif_delai;
+            $presence->update(['confirmation'=>$request->confirmation]);
+        }
     }
 
     /**
