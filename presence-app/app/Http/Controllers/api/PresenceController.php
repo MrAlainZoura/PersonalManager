@@ -61,7 +61,8 @@ class PresenceController extends Controller
         }
 
         //recuperer agent à partir de son email et nom via l'api
-        $agent = Http::get('http://127.0.0.1:8000/api/agent-show/?nom='.$request->nom.'&email='.$request->email);
+        $agent = Http::get('http://127.0.0.1:8000/api/agent-show/?email='.$request->email);
+        // $agent = Http::get('http://127.0.0.1:8000/api/agent-show/?nom='.$request->nom.'&email='.$request->email);
         //je recupere l'id de service et la localisation 
 
         if($agent->successful()){
@@ -183,6 +184,12 @@ class PresenceController extends Controller
             return response()->json([
                 'success'=>false,
                 'error'=>'Une erreur s est produite rvenez plus tard',
+            ]);
+        }
+        if($presence->h_sortie != null){
+            return response()->json([
+                'success'=>false,
+                'error'=>'Revenez demain pour signer la présence, vous avez déjà signé la sortie pour aujourd hui',
             ]);
         }
         $limite = Carbon::createFromFormat('Y-m-d H:i:s',$presence->h_arrive,'UTC');
