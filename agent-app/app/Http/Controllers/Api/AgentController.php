@@ -79,7 +79,7 @@ class AgentController extends Controller
     public function show(Request $request)
     {
         $validattion = Validator::make($request->all(), [
-            'nom'=>'required|string',
+            // 'nom'=>'required|string',
             'email'=>'required|string|email'
         ]);
 
@@ -88,9 +88,10 @@ class AgentController extends Controller
             return response()->json($validattion->errors());
         }
         $email = $request->email;
-        $nom = $request->nom;
+        // $nom = $request->nom;
 
-        $agent = Agent::where('email',$email)->where('nom',$nom)->first();
+        // $agent = Agent::where('email',$email)->where('nom',$nom)->first();
+        $agent = Agent::where('email',$email)->first();
         if ($agent) {
             return response()->json([
                 'success'=>true,
