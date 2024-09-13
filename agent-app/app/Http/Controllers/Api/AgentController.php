@@ -104,6 +104,20 @@ class AgentController extends Controller
         }
         
     }
+    public function getAgentByService(string $id){
+        $agents = Agent::where('service_id',$id)->get();
+        if(!$agents){
+            return response()->json([
+                'success'=>false,
+                'error'=>'Pas de resultat pour cette demande'
+            ]);
+        }
+
+         return response()->json([
+                'success'=>true,
+                'agents'=>$agents
+            ]);
+    }
 
     /**
      * Show the form for editing the specified resource.

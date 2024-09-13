@@ -45,3 +45,4 @@ Route::apiResource('sections', SectionController::class);
 Route::post('update-service',[ServiceController::class, 'update']);
 Route::apiResource('service', ServiceController::class);
 Route::get('agent-show', [AgentController::class,'show']);
+Route::get('get-agent-by-service/{id}', [AgentController::class,'getAgentByService']);
