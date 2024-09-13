@@ -17,7 +17,11 @@ class MessageController extends Controller
      */
     public function index()
     {
-        //
+        $messages = Message::latest()->get();
+        return response()->json([
+            'success'=>true,
+            'messages'=>$messages
+        ]);
     }
 
     /**
@@ -159,7 +163,19 @@ class MessageController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $message = Message::find($id);
+
+        if(!$message){
+            return response()->json([
+                'success'=>false,
+                'error'=>'Pas de message trouvé'
+            ]);
+        }
+        
+        return response()->json([
+                'success'=>true,
+                'message'=>$message
+            ]);
     }
 
     /**

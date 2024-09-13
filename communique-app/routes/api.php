@@ -8,5 +8,7 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
+Route::get('communique/show/{id}', [MessageController::class,'show']);
+Route::get('communique', [MessageController::class,'index']);
 Route::post('communique', [MessageController::class,'store']);
 Route::post('communique-service', [MessageController::class,'comService']);
