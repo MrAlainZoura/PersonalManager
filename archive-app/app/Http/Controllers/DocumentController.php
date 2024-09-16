@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Document;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\StoreDocumentRequest;
 use App\Http\Requests\UpdateDocumentRequest;
 
@@ -27,9 +29,49 @@ class DocumentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreDocumentRequest $request)
+    public function store(Request $request)
     {
-        //
+        $validation = Validator::make($request->all(),[
+            'dossier_id'=>'required',
+            'libele'=>'required|string',
+            'file'=>'required|file|mimes:pdf,jpg,jpeg,png,docx,xlsx,csv,xls,txt|max:2500'
+        ]);
+
+        if($validation->fails()){
+          return back()->with('echec', $validation->errors());
+        }
+
+        $fichier = $request->file('file');
+        $type = $fichier->getClientOriginalExtension();
+        $taille = $fichier->getSize();
+        $tKb = $taille/1024; //taille en Kb
+        
+        
+        $nombre = Document::where('dossier_id',$request->dossier_id)->where('libele',$request->libele)->count();
+
+        $libele = $request->libele;
+        
+        if($nombre > 0){
+            $libele = $request->libele . $nombre ;
+        }
+
+        $data = [
+            'dossier_id'=>$request->dossier_id,
+            'libele'=>$libele,
+            'type'=>$type,
+            'taille'=>$tKb
+        ];
+        $document = Document::create($data);
+
+        if(!$document){
+            return back()->with('echec',"Erreur, revenez plutard");
+        }
+        $fichier = $request->file('file')->storeAs('public/departement',$document->libele);
+
+        // dd(round($tKb,2) .' Ko', $type);
+        // dd($fichier);
+        return back()->with('success',"Document archivé avec success");
+
     }
 
     /**

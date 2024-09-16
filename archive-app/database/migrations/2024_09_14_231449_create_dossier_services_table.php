@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('dossier_departements', function (Blueprint $table) {
+        Schema::create('dossier_services', function (Blueprint $table) {
             $table->id();
             $table->foreignId('dossier_id')
                 ->constrained()
                 ->noActionOnDelete()
                 ->cascadeOnUpdate();
-            $table->integer('departement_id');
+            $table->integer('service_id');
             $table->timestamps();
         });
     }
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('dossier_departements');
+        Schema::dropIfExists('dossier_services');
     }
 };
