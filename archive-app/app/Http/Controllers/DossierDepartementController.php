@@ -40,7 +40,21 @@ class DossierDepartementController extends Controller
     public function store(Request $request)
     {
         // dd($request->all());
-        $dossier = Dossier::create(['libele'=>$request->libele]);
+        $nombre = DossierDepartement::where('departement_id',$request->departement_id)->get();
+        $place = 0;
+        foreach($nombre as $key =>$val){
+            if($val->dossier->libele == ucwords ($request->libele)){
+                $place+=1;
+            }
+        }
+        // dd($place);    
+        $libele = ucwords($request->libele);
+        
+        if($place > 0){
+            $libele = ucwords($request->libele) . $place ;
+        }
+        // dd($libele);
+        $dossier = Dossier::create(['libele'=>$libele]);
         if(!$dossier){
             return back()->with('echec','Echec de création de dossier');
         }
