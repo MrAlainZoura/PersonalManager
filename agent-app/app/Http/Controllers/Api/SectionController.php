@@ -62,7 +62,8 @@ class SectionController extends Controller
         if($section){
             return response()->json([
                 'sucess'=>true,
-                'section'=>$section
+                'section'=>$section,
+                'service'=>$section->service
             ]);
         }else{
             return response()->json([

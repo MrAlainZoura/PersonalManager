@@ -80,7 +80,8 @@ class DepartementController extends Controller
         if($departement){
         return response()->json([
             'sucess'=>true,
-            'departement'=>$departement
+            'departement'=>$departement,
+            'section'=>$departement->section
         ]);
     }else{
         return response()->json([

@@ -24,7 +24,8 @@ class ServiceController extends Controller
         if($service){
             return response()->json([
                 'sucess'=>true,
-                'service'=>$service
+                'service'=>$service,
+                'agent'=>$service->agent
             ]);
         }else{
             return response()->json([
