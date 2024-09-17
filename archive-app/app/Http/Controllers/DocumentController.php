@@ -45,12 +45,9 @@ class DocumentController extends Controller
         $type = $fichier->getClientOriginalExtension();
         $taille = $fichier->getSize();
         $tKb = $taille/1024; //taille en Kb
-        
-        
-        $nombre = Document::where('dossier_id',$request->dossier_id)->where('libele',$request->libele)->count();
-
+         
+        $nombre = Document::where('dossier_id',$request->dossier_id)->where('libele','like',"%$request->libele%")->count();
         $libele = $request->libele;
-        
         if($nombre > 0){
             $libele = $request->libele . $nombre ;
         }

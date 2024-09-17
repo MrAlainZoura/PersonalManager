@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dossier Departement Liste</title>
-    <!-- Import Tailwind CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.css" rel="stylesheet" />
 </head>
-<body class="bg-gray-100">
+<!-- <body class="bg-gray-100">
 
     <div class="container mx-auto p-4">
         <h1 class="text-3xl font-bold mb-4">Archive {{$dossier->libele}}</h1>
@@ -17,12 +18,21 @@
     <div>
         Ajouter document
 
+        
+            <form class="max-w-lg mx-auto">
+            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="user_avatar">Upload file</label>
+            <input class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="user_avatar_help" id="user_avatar" type="file">
+            <div class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="user_avatar_help">A profile picture is useful to confirm your are logged into your account</div>
+            </form>
+
         <form action="{{route('document.store')}}" method="post" enctype="multipart/form-data">
             @csrf 
             @method('post')
             <input type="hidden" name="dossier_id" value="{{$dossier->id}}">
             <p>Libele <input type="text" name="libele" required> </p>
             <p>Document <input type="file" name="file"> </p>
+            
+            
 
             @if(session('echec'))
                 <p> {{session('echec')}} </p>
@@ -104,6 +114,306 @@
                 </a>
             @endswitch
             @endforeach
+    </div>
+    
+</body> -->
+
+
+<body>
+
+    <nav class="fixed top-0 z-50 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+        <div class="px-3 py-3 lg:px-5 lg:pl-3">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center justify-start rtl:justify-end">
+                    <button data-drawer-target="logo-sidebar" data-drawer-toggle="logo-sidebar" aria-controls="logo-sidebar" type="button" class="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
+                        <span class="sr-only">Open sidebar</span>
+                        <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path clip-rule="evenodd" fill-rule="evenodd" d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"></path>
+                        </svg>
+                    </button>
+                    <a href="https://flowbite.com" class="flex ms-2 md:me-24">
+                    <img src="https://flowbite.com/docs/images/logo.svg" class="h-8 me-3" alt="FlowBite Logo" />
+                    <span class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">Achive App</span>
+                    </a>
+                </div>
+                    <div class="flex items-center">
+                        <div class="flex items-center ms-3">
+                            <div>
+                            <button type="button" class="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" aria-expanded="false" data-dropdown-toggle="dropdown-user">
+                                <span class="sr-only">Open user menu</span>
+                                <img class="w-8 h-8 rounded-full" src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="user photo">
+                            </button>
+                            </div>
+                            <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow dark:bg-gray-700 dark:divide-gray-600" id="dropdown-user">
+                            <div class="px-4 py-3" role="none">
+                                <p class="text-sm text-gray-900 dark:text-white" role="none">
+                                Neil Sims
+                                </p>
+                                <p class="text-sm font-medium text-gray-900 truncate dark:text-gray-300" role="none">
+                                neil.sims@flowbite.com
+                                </p>
+                            </div>
+                            <ul class="py-1" role="none">
+                                <li>
+                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">Dashboard</a>
+                                </li>
+                                <li>
+                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">Settings</a>
+                                </li>
+                                <li>
+                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">Earnings</a>
+                                </li>
+                                <li>
+                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">Sign out</a>
+                                </li>
+                            </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </nav>
+    <div class="p-4">
+            <div class="p-4   rounded-lg mt-8">
+                <nav class="flex m-2 justify-between" aria-label="Breadcrumb">
+                    <ol class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
+                        <li class="inline-flex items-center">
+                        <a href="#" class="inline-flex items-center text-xl font-medium text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-gray">
+                            <svg class="w-3 h-3 me-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="m19.707 9.293-2-2-7-7a1 1 0 0 0-1.414 0l-7 7-2 2a1 1 0 0 0 1.414 1.414L2 10.414V18a2 2 0 0 0 2 2h3a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h3a2 2 0 0 0 2-2v-7.586l.293.293a1 1 0 0 0 1.414-1.414Z"/>
+                            </svg>
+                            Home
+                        </a>
+                        </li>
+                        <li>
+                        <div class="flex items-center">
+                            <svg class="rtl:rotate-180 w-3 h-3 text-gray-400 mx-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
+                            </svg>
+                            <a href="" class="ms-1 text-xl font-medium text-gray-700 hover:text-blue-600 md:ms-2 dark:text-gray-400 dark:hover:text-gray">Departement</a>
+                        </div>
+                        </li>
+                        <li aria-current="page">
+                        <div class="flex items-center">
+                            <svg class="rtl:rotate-180 w-3 h-3 text-gray-400 mx-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
+                            </svg>
+                            <span class="ms-1 text-xl font-medium text-gray-500 md:ms-2 dark:text-gray-400">{{$dossier->libele}}</span>
+                        </div>
+                        </li>
+                    </ol>
+                    
+                    <div class="mb-4 border-b border-gray-200 dark:border-gray-700">
+                        
+                        <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" id="default-styled-tab" data-tabs-toggle="#default-styled-tab-content" data-tabs-active-classes="text-purple-600 hover:text-purple-600 dark:text-purple-500 dark:hover:text-purple-500 border-purple-600 dark:border-purple-500" data-tabs-inactive-classes="dark:border-transparent text-gray-500 hover:text-gray-600 dark:text-gray-400 border-gray-100 hover:border-gray-300 dark:border-gray-700 dark:hover:text-gray-300" role="tablist">
+                            <li class="me-2" role="presentation">
+                                <button data-modal-target="crud-modal" data-modal-toggle="crud-modal">
+                                    <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+                                    <!-- Uploaded to: SVG Repo, www.svgrepo.com, Transformed by: SVG Repo Mixer Tools -->
+                                    <svg fill="#ffc038" height="35px" width="35px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve" stroke="#ffc038">
+                                    <g id="SVGRepo_bgCarrier" stroke-width="0"/>
+                                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <g id="SVGRepo_iconCarrier"> <g> <g> <path d="M475.444,403.953c-0.01-0.429-0.021-0.848-0.042-1.267v-0.188c-0.01-0.22-0.021-0.429-0.031-0.649 c0-0.073-0.01-0.147-0.01-0.22c0-0.262-0.021-0.513-0.031-0.764c-0.01-0.262-0.031-0.523-0.042-0.775 c-0.01-0.251-0.031-0.503-0.052-0.754c-0.021-0.23-0.031-0.461-0.042-0.691c-0.021-0.23-0.031-0.461-0.052-0.691 c0-0.063-0.01-0.126-0.01-0.188c-0.031-0.314-0.052-0.628-0.094-0.942c-0.01-0.251-0.031-0.492-0.063-0.733 c-0.021-0.251-0.052-0.492-0.073-0.733c-0.01-0.094-0.021-0.178-0.031-0.272c-0.073-0.712-0.147-1.434-0.241-2.136 c-0.105-0.785-0.209-1.56-0.325-2.335c-0.031-0.23-0.073-0.45-0.105-0.67c-0.115-0.743-0.241-1.487-0.377-2.23 c-0.115-0.649-0.23-1.298-0.366-1.947c-0.021-0.094-0.042-0.199-0.063-0.293c-0.063-0.366-0.136-0.743-0.23-1.11 c0-0.021-0.01-0.052-0.01-0.073c-0.084-0.429-0.178-0.869-0.283-1.298c-0.073-0.345-0.157-0.691-0.241-1.026 c-0.021-0.126-0.052-0.241-0.084-0.366c-0.105-0.44-0.209-0.879-0.325-1.309c-0.021-0.084-0.052-0.178-0.073-0.262 c0-0.031,0-0.052-0.01-0.063c-0.209-0.827-0.429-1.654-0.67-2.471c-0.168-0.607-0.345-1.214-0.534-1.822 c-0.126-0.419-0.251-0.848-0.398-1.267c-0.031-0.094-0.052-0.188-0.084-0.283c-0.167-0.534-0.345-1.068-0.523-1.591 c-0.188-0.544-0.366-1.089-0.576-1.633c0-0.01-0.01-0.021-0.01-0.031c-0.063-0.199-0.136-0.398-0.209-0.586 c-0.126-0.345-0.251-0.691-0.387-1.036c-0.188-0.523-0.387-1.047-0.597-1.56c-0.314-0.796-0.639-1.602-0.974-2.387 c-0.335-0.785-0.67-1.57-1.026-2.355c-0.325-0.733-0.67-1.455-1.015-2.167c-0.052-0.105-0.105-0.209-0.147-0.314 c-0.251-0.513-0.503-1.026-0.764-1.539c-0.031-0.073-0.073-0.157-0.115-0.23c-0.157-0.314-0.314-0.618-0.482-0.932 c-0.157-0.304-0.325-0.618-0.482-0.921c-0.325-0.618-0.66-1.235-1.005-1.843c-0.335-0.607-0.68-1.214-1.036-1.811 c-0.544-0.953-1.12-1.895-1.706-2.816c-0.251-0.398-0.503-0.796-0.764-1.193c-0.387-0.607-0.785-1.214-1.193-1.811 c-0.314-0.471-0.628-0.932-0.953-1.392c-0.063-0.094-0.136-0.188-0.199-0.283c-0.031-0.042-0.063-0.084-0.094-0.126 c-0.241-0.345-0.482-0.68-0.722-1.005c-0.408-0.565-0.827-1.131-1.235-1.685c-0.858-1.131-1.727-2.24-2.617-3.329 c-0.22-0.272-0.44-0.544-0.67-0.806c-0.23-0.272-0.461-0.544-0.68-0.806c-0.429-0.503-0.858-0.995-1.298-1.497 c-0.052-0.063-0.105-0.126-0.167-0.188c-0.387-0.44-0.785-0.879-1.193-1.319c-0.094-0.105-0.199-0.22-0.314-0.335 c-0.199-0.209-0.387-0.429-0.597-0.639c-0.199-0.22-0.398-0.429-0.607-0.639c-0.482-0.503-0.963-1.005-1.466-1.497 c-0.167-0.178-0.345-0.356-0.523-0.523c-0.272-0.272-0.544-0.544-0.827-0.806c-0.042-0.042-0.094-0.094-0.136-0.136 c-0.01-0.01-0.021-0.021-0.031-0.031c-0.021-0.021-0.031-0.031-0.052-0.052c-0.44-0.419-0.9-0.858-1.361-1.277 c-0.01-0.021-0.031-0.042-0.063-0.063c-0.021-0.021-0.052-0.042-0.073-0.073c-0.073-0.063-0.147-0.136-0.22-0.199 c-0.01-0.01-0.021-0.021-0.031-0.021c-0.335-0.314-0.67-0.618-1.015-0.921c-0.712-0.639-1.424-1.267-2.146-1.874 c-0.921-0.785-1.843-1.539-2.795-2.293c-0.45-0.356-0.911-0.722-1.382-1.068c-0.063-0.052-0.126-0.105-0.199-0.147 c-0.345-0.272-0.691-0.534-1.047-0.785c-0.534-0.408-1.078-0.806-1.633-1.193c-0.042-0.031-0.084-0.073-0.136-0.094 c-0.094-0.063-0.178-0.126-0.272-0.199c-0.534-0.377-1.078-0.754-1.633-1.131c-1.288-0.869-2.596-1.717-3.926-2.533 c-0.534-0.335-1.078-0.66-1.623-0.974c-0.105-0.073-0.209-0.136-0.325-0.199c-0.073-0.042-0.136-0.084-0.209-0.126 c-0.325-0.188-0.66-0.377-0.995-0.565c-0.44-0.251-0.879-0.503-1.319-0.733c-0.544-0.293-1.089-0.586-1.633-0.879 c-0.272-0.147-0.544-0.293-0.817-0.429s-0.544-0.283-0.827-0.419c-0.565-0.293-1.141-0.576-1.717-0.848 c-0.66-0.325-1.33-0.628-2-0.932c-0.241-0.115-0.471-0.23-0.722-0.335h-0.01c-0.597-0.272-1.193-0.534-1.801-0.785 c-0.837-0.356-1.675-0.701-2.523-1.036c-0.775-0.304-1.549-0.607-2.335-0.89c-1.413-0.513-2.837-1.005-4.282-1.466 c-0.513-0.168-1.036-0.325-1.56-0.482c-0.063-0.021-0.136-0.042-0.199-0.063c-0.471-0.147-0.953-0.283-1.434-0.419 c-0.838-0.23-1.675-0.461-2.523-0.68c-0.597-0.157-1.204-0.304-1.811-0.45c-0.052-0.01-0.105-0.021-0.157-0.042 c-0.084-0.021-0.167-0.042-0.262-0.063c-0.345-0.073-0.691-0.157-1.047-0.23c-0.639-0.147-1.288-0.283-1.937-0.419 c-0.827-0.167-1.644-0.325-2.471-0.471c-0.136-0.021-0.262-0.042-0.398-0.063c-0.408-0.073-0.827-0.147-1.235-0.209 c-0.419-0.073-0.827-0.136-1.246-0.199c-0.733-0.115-1.466-0.22-2.209-0.314c-0.094-0.01-0.199-0.021-0.304-0.031 c-0.733-0.094-1.466-0.188-2.209-0.262c-0.157-0.021-0.314-0.031-0.471-0.042c-0.084-0.01-0.157-0.021-0.241-0.021 c-0.126-0.01-0.241-0.031-0.366-0.042c-0.387-0.042-0.785-0.073-1.183-0.105c-0.094-0.01-0.199-0.01-0.293-0.021 c-0.031-0.01-0.063-0.01-0.094-0.01c-0.209-0.021-0.408-0.031-0.618-0.052c-0.775-0.052-1.56-0.105-2.345-0.147 c-0.66-0.031-1.319-0.052-1.979-0.073c-0.408-0.021-0.817-0.031-1.225-0.031c-0.063-0.01-0.126-0.01-0.188-0.01 c-0.701-0.01-1.403-0.021-2.104-0.021c-14.091,0-27.532,2.764-39.823,7.768c-10.668,4.355-20.477,10.395-29.071,17.807 c-0.241,0.199-0.482,0.408-0.722,0.618c-22.047,19.357-35.981,47.747-35.981,79.394c0,3.842,0.22,7.632,0.618,11.358 c0.073,0.66,0.147,1.319,0.23,1.968c0.042,0.335,0.084,0.67,0.136,1.005c0.073,0.565,0.157,1.12,0.241,1.675 c0.115,0.775,0.241,1.539,0.377,2.303c0.105,0.586,0.209,1.172,0.325,1.759c0.063,0.345,0.126,0.68,0.199,1.026 c0.262,1.277,0.544,2.544,0.848,3.811c0.147,0.628,0.304,1.256,0.471,1.884c0.126,0.471,0.251,0.932,0.377,1.403 c0.073,0.283,0.157,0.565,0.241,0.848c0.136,0.482,0.272,0.953,0.419,1.434c0,0.021,0.01,0.042,0.021,0.073 c0.178,0.607,0.366,1.204,0.565,1.811c0.199,0.607,0.398,1.214,0.607,1.822c0.408,1.214,0.848,2.418,1.309,3.612 c0.23,0.597,0.461,1.193,0.701,1.78c0.209,0.523,0.429,1.047,0.649,1.57c0.021,0.042,0.031,0.084,0.052,0.126 c0.01,0.021,0.021,0.052,0.031,0.073h-0.001c0.01,0.021,0.01,0.031,0.021,0.052c0.021,0.042,0.042,0.094,0.052,0.136 c0.052,0.126,0.115,0.251,0.167,0.377c0.147,0.345,0.293,0.68,0.45,1.026c0.293,0.649,0.586,1.309,0.89,1.947 c0,0.01,0.01,0.01,0.01,0.021c0.147,0.304,0.283,0.607,0.429,0.9c0.031,0.052,0.052,0.115,0.084,0.168 c0.241,0.503,0.482,1.005,0.743,1.497c0,0.01,0.01,0.01,0.01,0.021c0.01,0.01,0.01,0.031,0.021,0.042 c0.01,0.031,0.031,0.052,0.042,0.084v-0.003c0,0.001,0.001,0.002,0.001,0.003c0.168,0.345,0.345,0.691,0.523,1.026 c0.314,0.607,0.639,1.214,0.963,1.811c0.021,0.042,0.052,0.094,0.073,0.136c0.293,0.544,0.597,1.078,0.9,1.612 c0.188,0.335,0.387,0.66,0.576,0.995c1.016,1.738,2.073,3.444,3.193,5.109c0.366,0.565,0.743,1.12,1.131,1.675 c0.366,0.544,0.754,1.078,1.131,1.612c0.136,0.199,0.272,0.387,0.419,0.576c0.314,0.44,0.639,0.869,0.963,1.298 c0.251,0.335,0.513,0.67,0.764,0.995c0.513,0.68,1.047,1.35,1.591,2.01c0.293,0.377,0.597,0.743,0.911,1.11 c0.67,0.806,1.35,1.602,2.052,2.387c0.649,0.733,1.298,1.455,1.968,2.167c0.052,0.052,0.094,0.105,0.147,0.157 c0.44,0.471,0.89,0.942,1.34,1.403c0.534,0.555,1.078,1.099,1.623,1.633C314.939,500.453,341.058,512,369.878,512 c58.321,0,105.597-47.276,105.597-105.597C475.476,405.586,475.465,404.77,475.444,403.953z M385.581,423.132v41.937h-31.406 v-41.937h-39.865v-8.804v-22.602h17.797h22.068v-28.014v-13.913h10.961h20.445v41.927h39.865v31.406H385.581z"/> </g> </g> <g> <g> <polygon points="168.858,0 168.858,15.703 168.858,31.406 168.858,82.357 287.949,82.357 287.949,31.406 287.949,15.703 287.949,0 "/> </g> </g> <g> <g> <path d="M319.356,0v31.406h0.001v18.236h49.611v219.779c0.304-0.01,0.607-0.01,0.911-0.01c6.406,0,12.76,0.44,19,1.309 c5.318,0.722,10.563,1.759,15.703,3.109c5.349,1.371,10.584,3.088,15.703,5.119V0H319.356z"/> </g> </g> <g> <g> <path d="M245.343,463.447h0.001c-2.345-5.098-4.376-10.343-6.072-15.703c-2.198-6.93-3.852-14.038-4.92-21.272H87.843V49.642 h49.611V15.703h-0.001V0H36.525v479.149h217.287C250.64,474.104,247.813,468.859,245.343,463.447z"/> </g> </g> <g> <g> <path d="M319.357,81.048v32.714H137.454V81.048h-18.205v314.017h114.098c2.921-35.216,19.398-68.14,46.198-91.653l0.157-0.136 c0.262-0.23,0.534-0.461,0.775-0.68c11.275-9.715,23.973-17.483,37.729-23.094c6.323-2.575,12.782-4.659,19.357-6.25V81.048 H319.357z M289.281,291.426H162.589V260.02h126.691V291.426z M289.281,233.157H162.589v-31.406h126.691V233.157z M289.281,174.899 H162.589v-31.406h126.691V174.899z"/> </g> </g> </g>
+                                    </svg>
+                                </button>        
+                            </li>
+                            <li class="me-2" role="presentation">
+                                <button class="inline-block p-4 border-b-2 rounded-t-lg" id="profile-styled-tab" data-tabs-target="#styled-profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Document</button>
+                            </li>
+                            <li class="me-2" role="presentation">
+                                <button class="inline-block p-4 border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300" id="dashboard-styled-tab" data-tabs-target="#styled-dashboard" type="button" role="tab" aria-controls="dashboard" aria-selected="false">Sous Dossier</button>
+                            </li>
+                            
+                        </ul>
+                    </div>
+                
+                </nav> 
+          
+            </div>
+    </div>
+    <div class="p-4" >
+
+            @if(session('echec'))
+                
+                <div id="alert-2" class="flex items-center p-4 mb-4 text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
+                <svg class="flex-shrink-0 w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
+                </svg>
+                <span class="sr-only">Info</span>
+                <div class="ms-3 text-sm font-medium">
+                <span class="font-semibold underline hover:no-underline">
+                    {{session('echec')}}
+                </span>
+                </div>
+                <button type="button" class="ms-auto -mx-1.5 -my-1.5 bg-red-50 text-red-500 rounded-lg focus:ring-2 focus:ring-red-400 p-1.5 hover:bg-red-200 inline-flex items-center justify-center h-8 w-8 dark:bg-gray-800 dark:text-red-400 dark:hover:bg-gray-700" data-dismiss-target="#alert-2" aria-label="Close">
+                    <span class="sr-only">Close</span>
+                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                    </svg>
+                </button>
+                </div>
+            @endif
+            @if(session('success'))
+                <div id="alert-3" class="flex items-center p-4 mb-4 text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400" role="alert">
+                    <svg class="flex-shrink-0 w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
+                    </svg>
+                    <span class="sr-only">Info</span>
+                    <div class="ms-3 text-sm font-medium">
+                        <span class="font-semibold underline hover:no-underline">{{session('success')}} !</span>
+                    </div>
+                    <button type="button" class="ms-auto -mx-1.5 -my-1.5 bg-green-50 text-green-500 rounded-lg focus:ring-2 focus:ring-green-400 p-1.5 hover:bg-green-200 inline-flex items-center justify-center h-8 w-8 dark:bg-gray-800 dark:text-green-400 dark:hover:bg-gray-700" data-dismiss-target="#alert-3" aria-label="Close">
+                        <span class="sr-only">Close</span>
+                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                        </svg>
+                    </button>
+                </div>
+            @endif
+            
+            <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-14">
+
+                <div  id="styled-dashboard" role="tabpanel" aria-labelledby="dashboard-tab" class="grid grid-cols-1 gap-4 mb-4 sm:grid-cols-1 lg:grid-cols-3 md:grid-cols-2">
+                    Sous Dossier
+                </div>
+                        
+                <div id="styled-profile" role="tabpanel" aria-labelledby="profile-tab" class="flex ">
+                    
+                    @foreach($dossier->document as $key => $val)
+
+                    <div class="flex m-2 items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-300">
+                       
+                        @switch($val->type)
+                            @case('pdf')
+                            <a href="{{url('storage/departement/'.$val->libele.'.'.$val->type)}}" target="_blank">
+                                <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+                                <svg fill="#ffea00" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="64px" height="64px" viewBox="0 0 550.801 550.801" xml:space="preserve" stroke="#ffea00">
+                                    <g id="SVGRepo_bgCarrier" stroke-width="0"/>
+                                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <g id="SVGRepo_iconCarrier"> <g> <g> <path d="M267.342,414.698c-6.613,0-10.884,0.585-13.413,1.165v85.72c2.534,0.586,6.616,0.586,10.304,0.586 c26.818,0.189,44.315-14.576,44.315-45.874C308.738,429.079,292.803,414.698,267.342,414.698z"/> <path d="M152.837,414.313c-6.022,0-10.104,0.58-12.248,1.16v38.686c2.531,0.58,5.643,0.78,9.903,0.78 c15.757,0,25.471-7.973,25.471-21.384C175.964,421.506,167.601,414.313,152.837,414.313z"/> <path d="M475.095,131.992c-0.032-2.526-0.833-5.021-2.568-6.993L366.324,3.694c-0.021-0.034-0.062-0.045-0.084-0.076 c-0.633-0.707-1.36-1.29-2.141-1.804c-0.232-0.15-0.475-0.285-0.718-0.422c-0.675-0.366-1.382-0.67-2.13-0.892 c-0.19-0.058-0.38-0.14-0.58-0.192C359.87,0.114,359.037,0,358.203,0H97.2C85.292,0,75.6,9.693,75.6,21.601v507.6 c0,11.913,9.692,21.601,21.6,21.601H453.6c11.908,0,21.601-9.688,21.601-21.601V133.202 C475.2,132.796,475.137,132.398,475.095,131.992z M193.261,463.873c-10.104,9.523-25.072,13.806-42.569,13.806 c-3.882,0-7.391-0.2-10.102-0.58v46.839h-29.35V394.675c9.131-1.55,21.967-2.721,40.047-2.721 c18.267,0,31.292,3.501,40.036,10.494c8.363,6.612,13.985,17.497,13.985,30.322C205.308,445.605,201.042,456.49,193.261,463.873z M318.252,508.392c-13.785,11.464-34.778,16.906-60.428,16.906c-15.359,0-26.238-0.97-33.637-1.94V394.675 c10.887-1.74,25.083-2.721,40.046-2.721c24.867,0,41.004,4.472,53.645,13.995c13.61,10.109,22.164,26.241,22.164,49.37 C340.031,480.4,330.897,497.697,318.252,508.392z M439.572,417.225h-50.351v29.932h47.039v24.11h-47.039v52.671H359.49V392.935 h80.082V417.225z M97.2,366.752V21.601h250.203v110.515c0,5.961,4.831,10.8,10.8,10.8H453.6l0.011,223.836H97.2z"/> <path d="M386.205,232.135c-0.633-0.059-15.852-1.448-39.213-1.448c-7.319,0-14.691,0.143-21.969,0.417 c-46.133-34.62-83.919-69.267-104.148-88.684c0.369-2.138,0.623-3.828,0.741-5.126c2.668-28.165-0.298-47.179-8.786-56.515 c-5.558-6.101-13.721-8.131-22.233-5.806c-5.286,1.385-15.071,6.513-18.204,16.952c-3.459,11.536,2.101,25.537,16.708,41.773 c0.232,0.246,5.189,5.44,14.196,14.241c-5.854,27.913-21.178,88.148-28.613,117.073c-17.463,9.331-32.013,20.571-43.277,33.465 l-0.738,0.844l-0.477,1.013c-1.16,2.437-6.705,15.087-2.542,25.249c1.901,4.62,5.463,7.995,10.302,9.767l1.297,0.349 c0,0,1.17,0.253,3.227,0.253c9.01,0,31.25-4.735,43.179-48.695l2.89-11.138c41.639-20.239,93.688-26.768,131.415-28.587 c19.406,14.391,38.717,27.611,57.428,39.318l0.611,0.354c0.907,0.464,9.112,4.515,18.721,4.524l0,0 c13.732,0,23.762-8.427,27.496-23.113l0.189-1.004c1.044-8.393-1.065-15.958-6.096-21.872 C407.711,233.281,387.978,232.195,386.205,232.135z M142.812,319.744c-0.084-0.1-0.124-0.194-0.166-0.3 c-0.896-2.157,0.179-7.389,1.761-11.222c6.792-7.594,14.945-14.565,24.353-20.841 C159.598,317.039,146.274,319.603,142.812,319.744z M200.984,122.695L200.984,122.695c-14.07-15.662-13.859-23.427-13.102-26.041 c1.242-4.369,6.848-6.02,6.896-6.035c2.824-0.768,4.538-0.617,6.064,1.058c3.451,3.791,6.415,15.232,5.244,36.218 C202.764,124.557,200.984,122.695,200.984,122.695z M193.714,256.068l0.243-0.928l-0.032,0.011 c7.045-27.593,17.205-67.996,23.047-93.949l0.211,0.201l0.021-0.124c18.9,17.798,47.88,43.831,82.579,70.907l-0.39,0.016 l0.574,0.433C267.279,235.396,228.237,241.84,193.714,256.068z M408.386,265.12c-2.489,9.146-7.277,10.396-11.665,10.396l0,0 c-5.094,0-9.998-2.12-11.116-2.632c-12.741-7.986-25.776-16.688-38.929-25.998c0.105,0,0.2,0,0.316,0 c22.549,0,37.568,1.369,38.158,1.411c3.766,0.14,15.684,1.9,20.82,7.938C407.984,258.602,408.755,261.431,408.386,265.12z"/> </g> </g> </g>
+                                </svg>
+                                {{$val->libele}}
+                            </a>
+                            @break
+                            @case('JPG'||'jpg'||'png'||'jpeg')
+                            <a href="{{url('storage/departement/'.$val->libele.'.'.$val->type)}}" target="_blank">
+                                <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+                                <svg width="64px" height="64px" viewBox="0 0 48.00 48.00" id="a" xmlns="http://www.w3.org/2000/svg" fill="#ffff00" stroke="#ffff00" stroke-width="1.344">
+                                    <g id="SVGRepo_bgCarrier" stroke-width="0"/>
+                                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" stroke="#CCCCCC" stroke-width="0.096"/>
+                                    <g id="SVGRepo_iconCarrier">
+                                    <defs>
+                                    <style>.b{fill:none;stroke:#ffff00;stroke-linecap:round;stroke-linejoin:round;}</style>
+                                    </defs>
+                                    <path class="b" d="M29.4995,12.3739c.7719-.0965,1.5437,.4824,1.5437,1.2543h0l2.5085,23.8312c.0965,.7719-.4824,1.5437-1.2543,1.5437l-23.7347,2.5085c-.7719,.0965-1.5437-.4824-1.5437-1.2543h0l-2.5085-23.7347c-.0965-.7719,.4824-1.5437,1.2543-1.5437l23.7347-2.605Z"/>
+                                    <path class="b" d="M12.9045,18.9347c-1.7367,.193-3.0874,1.7367-2.8945,3.5699,.193,1.7367,1.7367,3.0874,3.5699,2.8945,1.7367-.193,3.0874-1.7367,2.8945-3.5699s-1.8332-3.0874-3.5699-2.8945h0Zm8.7799,5.596l-4.6312,5.6925c-.193,.193-.4824,.2894-.6754,.0965h0l-1.0613-.8683c-.193-.193-.5789-.0965-.6754,.0965l-5.0171,6.1749c-.193,.193-.193,.5789,.0965,.6754-.0965,.0965,.0965,.0965,.193,.0965l19.9719-2.1226c.2894,0,.4824-.2894,.4824-.5789,0-.0965-.0965-.193-.0965-.2894l-7.8151-9.0694c-.2894-.0965-.5789-.0965-.7719,.0965h0Z"/>
+                                    <path class="b" d="M16.2814,13.8211l.6754-6.0784c.0965-.7719,.7719-1.3508,1.5437-1.2543l23.7347,2.5085c.7719,.0965,1.3508,.7719,1.2543,1.5437h0l-2.5085,23.7347c0,.6754-.7719,1.2543-1.5437,1.2543l-6.1749-.6754"/>
+                                    <path class="b" d="M32.7799,29.9337l5.3065,.5789c.2894,0,.4824-.193,.5789-.4824,0-.0965,0-.193-.0965-.2894l-5.789-10.5166c-.0965-.193-.4824-.2894-.6754-.193h0l-.3859,.3859"/>
+                                    </g>
+                                </svg>
+                                {{$val->libele}}
+                            </a>
+                            @break
+                            @case('xlsx'||'csv'||'xls')
+                            <a href="{{url('storage/departement/'.$val->libele.'.'.$val->type)}}" target="_blank">
+                            <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+                                <svg width="64px" height="64px" viewBox="0 0 512 512" version="1.1" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#000000">
+                                    <g id="SVGRepo_bgCarrier" stroke-width="0"/>
+                                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <g id="SVGRepo_iconCarrier"> <g id="file__x2C__xlsx__x2C__xlx__x2C__excel___x2C_"> <g id="Layer_18"> <g> <g> <polygon points="107.074,25.467 349.079,25.467 420.601,97.842 420.601,447.875 107.074,447.875 " style="fill-rule:evenodd;clip-rule:evenodd;fill:#FFFFFF;"/> <path d="M420.601,454.736H107.074c-3.79,0-6.86-3.07-6.86-6.861V25.467c0-3.79,3.07-6.86,6.86-6.86 h242.005c1.831,0,3.593,0.734,4.877,2.037l71.526,72.375c1.267,1.285,1.982,3.015,1.982,4.822v350.033 C427.465,451.666,424.391,454.736,420.601,454.736z M113.934,441.016h299.812V100.66l-67.534-68.333H113.934V441.016z" style="fill:#ffa245;"/> </g> <g> <rect height="105.6" style="fill-rule:evenodd;clip-rule:evenodd;fill:#ffa245;" width="313.529" x="129.982" y="177.615"/> </g> <g> <path d="M194.181,258.465h-11.189v-9.957h11.189V258.465z M224.947,222.28l10.389-19.915h12.921 l-16.383,27.853l17.315,28.247h-13.452l-10.657-20.18l-10.655,20.18h-13.052l16.916-28.247l-16.517-27.853h12.919 L224.947,222.28z M266.104,249.719h24.641v8.746h-35.696v-56.1h11.056V249.719z M327.104,243.8c0-2.147-0.799-3.9-2.267-5.245 c-1.464-1.211-4.13-2.418-7.994-3.63c-6.524-1.886-11.581-4.175-14.912-6.864c-3.332-2.556-5.066-6.186-5.066-10.76 c0-4.712,2.001-8.342,5.864-11.301c3.864-2.96,8.792-4.304,14.784-4.304c6.126,0,11.055,1.615,14.918,4.845 c3.859,3.226,5.727,7.259,5.594,12.105l-0.134,0.266h-10.787c0-2.551-0.799-4.708-2.533-6.323 c-1.729-1.478-4.13-2.285-7.194-2.285c-3.061,0-5.323,0.675-6.92,2.019c-1.602,1.211-2.4,2.959-2.4,4.979 c0,1.886,0.799,3.497,2.529,4.708c1.734,1.211,4.799,2.418,9.058,3.767c6.13,1.749,10.654,4.038,13.853,6.86 c3.198,2.822,4.795,6.457,4.795,11.031c0,4.841-1.863,8.613-5.727,11.436c-3.73,2.693-8.658,4.033-14.784,4.033 c-5.993,0-11.324-1.479-15.849-4.708c-4.396-3.092-6.663-7.534-6.525-13.178l0.129-0.138h10.792c0,3.23,1.064,5.653,3.061,7.264 c1.996,1.615,4.795,2.29,8.393,2.29c3.065,0,5.327-0.542,6.924-1.886C326.306,247.572,327.104,245.957,327.104,243.8 L327.104,243.8z M366.125,222.28l10.389-19.915h13.055l-16.515,27.853l17.446,28.247h-13.454l-10.654-20.18l-10.783,20.18 h-12.922l16.78-28.247l-16.381-27.853h12.788L366.125,222.28z" style="fill:#FEFEFE;"/> </g> <g> <path d="M263.424,146.413c-0.027,0-0.06,0-0.092,0c-13.951-0.023-26.076-5.135-32.432-13.669 c-2.264-3.038-1.636-7.337,1.404-9.599c3.038-2.263,7.335-1.634,9.599,1.404c3.728,5.006,11.949,8.126,21.452,8.14 c0.023,0,0.046,0,0.068,0c9.719,0,18.703-3.271,22.36-8.158c2.276-3.033,6.575-3.644,9.604-1.372 c3.032,2.271,3.647,6.571,1.376,9.604C290.451,141.186,277.681,146.413,263.424,146.413z" style="fill:#ffa245;"/> </g> <g> <path d="M143.971,233.173c-0.023,0-0.046,0-0.069,0c-41.671-0.404-66.396-11.247-73.49-32.226 c-9.243-27.338,17.015-62.735,32.446-74.752c2.99-2.327,7.303-1.794,9.629,1.193c2.328,2.992,1.792,7.3-1.195,9.631 c-13.264,10.329-34.524,39.879-27.88,59.532c6.254,18.501,36.419,22.668,60.624,22.902c3.788,0.037,6.83,3.138,6.793,6.924 C150.791,230.144,147.729,233.173,143.971,233.173z" style="fill:#ffa245;"/> </g> <g> <polygon points="349.079,97.842 420.601,97.842 349.079,25.467 " style="fill-rule:evenodd;clip-rule:evenodd;fill:#D4E4FF;"/> <path d="M420.601,104.703h-71.521c-3.79,0-6.86-3.07-6.86-6.86V25.467c0-2.785,1.68-5.291,4.254-6.346 c2.574-1.056,5.529-0.455,7.483,1.523l71.526,72.375c1.946,1.968,2.515,4.91,1.45,7.465 C425.868,103.042,423.372,104.703,420.601,104.703z M355.938,90.983h48.239l-48.239-48.813V90.983z" style="fill:#ffa245;"/> </g> <g> <path d="M239.341,493.393c-0.376,0-0.757-0.027-1.143-0.092l-22.509-3.766 c-3.306-0.557-5.727-3.414-5.727-6.77v-34.891c0-3.789,3.07-6.859,6.86-6.859c3.791,0,6.86,3.07,6.86,6.859v29.082l16.783,2.809 c3.737,0.629,6.259,4.162,5.632,7.9C245.538,491.021,242.631,493.393,239.341,493.393z" style="fill:#ffa245;"/> </g> <g> <path d="M325.25,493.393c-0.376,0-0.762-0.027-1.146-0.092l-22.507-3.766 c-3.309-0.557-5.727-3.414-5.727-6.77v-34.891c0-3.789,3.069-6.859,6.859-6.859s6.86,3.07,6.86,6.859v29.082l16.78,2.809 c3.739,0.629,6.259,4.162,5.635,7.9C331.445,491.021,328.536,493.393,325.25,493.393z" style="fill:#ffa245;"/> </g> <g> <path d="M290.873,65.154c6.259-1.753,13.188,0.94,16.519,6.86 c4.13,7.13,1.73,16.143-5.332,20.313c-7.057,4.033-15.978,1.61-19.979-5.516c-3.193-5.515-2.396-12.38,1.469-16.95 c1.331,1.748,3.726,2.418,5.727,1.211C291.276,69.862,292.075,67.306,290.873,65.154L290.873,65.154z" style="fill-rule:evenodd;clip-rule:evenodd;fill:#ffa245;"/> </g> <g> <path d="M228.811,65.154c6.259-1.753,13.185,0.94,16.649,6.86 c3.994,7.13,1.597,16.143-5.462,20.313c-6.924,4.033-15.982,1.61-19.979-5.516c-3.196-5.515-2.397-12.38,1.466-16.95 c1.331,1.748,3.861,2.418,5.727,1.211C229.343,69.862,230.008,67.306,228.811,65.154L228.811,65.154z" style="fill-rule:evenodd;clip-rule:evenodd;fill:#ffa245;"/> </g> <g> <polygon points="209.098,359.762 209.098,371.738 390.638,371.738 390.638,359.762 390.638,339.719 209.098,339.719 " style="fill-rule:evenodd;clip-rule:evenodd;fill:#D4E4FF;"/> </g> <g> <path d="M390.638,346.578H137.042c-3.791,0-6.86-3.068-6.86-6.859v-32.02c0-3.789,3.07-6.859,6.86-6.859 h253.596c3.79,0,6.854,3.07,6.854,6.859v32.02C397.492,343.51,394.428,346.578,390.638,346.578z M143.901,332.859h239.871 v-18.299H143.901V332.859z" style="fill:#ffa245;"/> </g> <g> <path d="M390.638,378.598H137.042c-3.791,0-6.86-3.07-6.86-6.859v-32.02c0-3.789,3.07-6.859,6.86-6.859 h253.596c3.79,0,6.854,3.07,6.854,6.859v32.02C397.492,375.527,394.428,378.598,390.638,378.598z M143.901,364.879h239.871 v-18.301H143.901V364.879z" style="fill:#ffa245;"/> </g> <g> <path d="M390.638,410.611H137.042c-3.791,0-6.86-3.068-6.86-6.859v-32.014c0-3.791,3.07-6.859,6.86-6.859 h253.596c3.79,0,6.854,3.068,6.854,6.859v32.014C397.492,407.543,394.428,410.611,390.638,410.611z M143.901,396.893h239.871 v-18.295H143.901V396.893z" style="fill:#ffa245;"/> </g> <g> <path d="M318.579,410.611H209.098c-3.79,0-6.86-3.068-6.86-6.859v-96.053c0-3.789,3.07-6.859,6.86-6.859 h109.481c3.79,0,6.859,3.07,6.859,6.859v96.053C325.438,407.543,322.369,410.611,318.579,410.611z M215.958,396.893h95.761 v-82.332h-95.761V396.893z" style="fill:#ffa245;"/> </g> </g> </g> </g> <g id="Layer_1"/> </g>
+                                </svg>
+                                {{$val->libele}}
+                            </a>
+                            @break
+                            @case('docx')
+                            <a href="{{url('storage/departement/'.$val->libele.'.'.$val->type)}}" target="_blank">
+                                <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+                                <svg width="64px" height="64px" viewBox="0 0 512 512" version="1.1" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#000000">
+                                <g id="SVGRepo_bgCarrier" stroke-width="0"/>
+                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
+                                <g id="SVGRepo_iconCarrier"> <g id="file__x2C__document__x2C__doc_x2C__docx__x2C_"> <g id="Layer_20"> <g> <g> <polygon points="107.072,25.469 349.08,25.469 420.602,97.844 420.602,447.875 107.072,447.875 " style="fill-rule:evenodd;clip-rule:evenodd;fill:#FFFFFF;"/> <path d="M420.602,454.736h-313.53c-3.79,0-6.859-3.07-6.859-6.861V25.469c0-3.791,3.069-6.86,6.859-6.86 H349.08c1.831,0,3.593,0.734,4.877,2.037l71.526,72.375c1.267,1.285,1.982,3.02,1.982,4.823v350.031 C427.466,451.666,424.392,454.736,420.602,454.736z M113.932,441.016h299.814V100.662l-67.534-68.333h-232.28V441.016z" style="fill:#4C8CF9;"/> </g> <g> <rect height="105.599" style="fill-rule:evenodd;clip-rule:evenodd;fill:#4C8CF9;" width="313.532" x="129.98" y="177.616"/> </g> <g> <path d="M187.652,258.463h-11.187v-9.82h11.187V258.463z M198.841,258.463v-56.091h19.045 c6.793,0,12.387,2.285,16.783,6.589c4.396,4.441,6.66,9.957,6.66,16.813v9.287c0,6.855-2.265,12.508-6.66,16.813 c-4.396,4.304-9.989,6.59-16.783,6.59H198.841z M210.028,211.113v38.608h7.326c3.997,0,7.192-1.344,9.324-4.033 c2.265-2.693,3.462-6.323,3.462-10.627v-9.287c0-4.438-1.197-7.938-3.462-10.627c-2.131-2.689-5.327-4.033-9.324-4.033H210.028z M294.604,235.464c0,6.855-2.134,12.508-6.392,17.079c-4.396,4.442-9.989,6.727-16.785,6.727 c-6.924,0-12.385-2.285-16.648-6.727c-4.26-4.57-6.392-10.224-6.392-17.079v-10.095c0-6.855,2.131-12.508,6.259-16.95 c4.263-4.57,9.857-6.727,16.652-6.727c6.925,0,12.518,2.157,16.78,6.727c4.392,4.442,6.525,10.095,6.525,16.95V235.464z M283.551,225.236c0-4.304-1.202-7.934-3.331-10.76c-2.13-2.827-5.062-4.171-8.921-4.171c-3.734,0-6.662,1.344-8.791,4.171 c-1.999,2.827-3.065,6.456-3.065,10.76v10.228c0,4.437,1.066,8.066,3.193,10.893c2.001,2.827,4.929,4.171,8.792,4.171 c3.73,0,6.796-1.344,8.93-4.171c2.129-2.827,3.193-6.456,3.193-10.893V225.236z M345.083,239.364l0.138,0.133 c0.129,6.052-1.734,10.898-5.465,14.394c-3.73,3.497-8.925,5.378-15.583,5.378s-12.118-2.285-16.248-6.589 s-6.259-9.82-6.259-16.684v-11.16c0-6.727,1.996-12.242,6.126-16.684c3.996-4.304,9.319-6.461,15.849-6.461 c6.796,0,12.118,1.753,15.982,5.25c3.863,3.634,5.727,8.475,5.727,14.527l-0.129,0.271h-10.792c0-3.767-0.932-6.594-2.661-8.475 c-1.735-2.019-4.534-2.959-8.127-2.959c-3.326,0-5.992,1.344-7.988,4.033c-2.001,2.827-2.933,6.19-2.933,10.499v11.16 c0,4.309,1.064,7.672,3.061,10.499c2.134,2.689,4.929,4.033,8.393,4.033c3.465,0,5.997-0.94,7.723-2.826 c1.602-1.882,2.4-4.708,2.4-8.338H345.083z M372.655,222.277l10.389-19.905h12.917l-16.381,27.843l17.317,28.248h-13.321 l-10.787-20.177l-10.655,20.177H349.08l16.918-28.248l-16.386-27.843H362.4L372.655,222.277z" style="fill:#FEFEFE;"/> </g> <g> <path d="M263.425,146.414c-0.027,0-0.06,0-0.092,0c-13.954-0.023-26.079-5.13-32.434-13.665 c-2.265-3.038-1.636-7.337,1.404-9.599c3.038-2.267,7.335-1.634,9.599,1.404c3.729,5.001,11.949,8.122,21.45,8.136 c9.608-0.051,18.768-3.258,22.438-8.154c2.267-3.033,6.57-3.648,9.6-1.372c3.032,2.271,3.647,6.571,1.376,9.604 C290.452,141.188,277.682,146.414,263.425,146.414z" style="fill:#4C8CF9;"/> </g> <g> <path d="M143.969,233.308c-0.025,0-0.051,0-0.078,0c-41.673-0.454-66.396-11.334-73.483-32.34 c-9.234-27.362,17.019-62.758,32.448-74.775c2.99-2.322,7.303-1.79,9.629,1.198c2.329,2.992,1.792,7.3-1.195,9.631 c-13.261,10.324-34.52,39.884-27.882,59.56c6.256,18.538,36.426,22.741,60.635,23.007c3.788,0.041,6.826,3.147,6.784,6.933 C150.785,230.284,147.722,233.308,143.969,233.308z" style="fill:#4C8CF9;"/> </g> <g> <polygon points="349.08,97.844 420.602,97.844 349.08,25.469 " style="fill-rule:evenodd;clip-rule:evenodd;fill:#D4E4FF;"/> <path d="M420.602,104.704H349.08c-3.79,0-6.86-3.069-6.86-6.86V25.469c0-2.781,1.68-5.291,4.254-6.346 c2.574-1.06,5.529-0.454,7.483,1.523l71.526,72.375c1.946,1.969,2.515,4.915,1.45,7.466 C425.869,103.043,423.373,104.704,420.602,104.704z M355.939,90.984h48.239l-48.239-48.813V90.984z" style="fill:#4C8CF9;"/> </g> <g> <path d="M239.339,493.393c-0.378,0-0.759-0.027-1.143-0.092l-22.509-3.771 c-3.306-0.555-5.727-3.418-5.727-6.768v-34.887c0-3.789,3.069-6.859,6.859-6.859c3.791,0,6.86,3.07,6.86,6.859v29.082 l16.782,2.809c3.738,0.629,6.259,4.166,5.633,7.9C245.534,491.021,242.629,493.393,239.339,493.393z" style="fill:#4C8CF9;"/> </g> <g> <path d="M325.251,493.393c-0.381,0-0.762-0.027-1.146-0.092l-22.507-3.771 c-3.309-0.555-5.727-3.418-5.727-6.768v-34.887c0-3.789,3.069-6.859,6.859-6.859s6.86,3.07,6.86,6.859v29.082l16.78,2.809 c3.739,0.629,6.259,4.166,5.635,7.9C331.446,491.021,328.537,493.393,325.251,493.393z" style="fill:#4C8CF9;"/> </g> <g> <path d="M290.874,65.155c6.259-1.753,13.188,0.937,16.519,6.855 c4.13,7.131,1.73,16.143-5.332,20.318c-7.057,4.033-15.978,1.615-19.979-5.516c-3.193-5.516-2.396-12.38,1.469-16.95 c1.331,1.744,3.726,2.423,5.727,1.211C291.277,69.863,292.076,67.303,290.874,65.155L290.874,65.155z" style="fill-rule:evenodd;clip-rule:evenodd;fill:#4C8CF9;"/> </g> <g> <path d="M228.809,65.155c6.259-1.753,13.185,0.937,16.65,6.855 c3.994,7.131,1.597,16.143-5.463,20.318c-6.924,4.033-15.982,1.615-19.979-5.516c-3.196-5.516-2.397-12.38,1.466-16.95 c1.331,1.744,3.861,2.423,5.727,1.211C229.341,69.863,230.006,67.303,228.809,65.155L228.809,65.155z" style="fill-rule:evenodd;clip-rule:evenodd;fill:#4C8CF9;"/> </g> <g> <path d="M373.721,326.395H164.61c-3.791,0-6.86-3.07-6.86-6.861c0-3.789,3.069-6.859,6.86-6.859h209.11 c3.79,0,6.859,3.07,6.859,6.859C380.58,323.324,377.511,326.395,373.721,326.395z" style="fill:#4C8CF9;"/> </g> <g> <path d="M373.721,361.908H164.61c-3.791,0-6.86-3.068-6.86-6.859c0-3.789,3.069-6.859,6.86-6.859h209.11 c3.79,0,6.859,3.07,6.859,6.859C380.58,358.84,377.511,361.908,373.721,361.908z" style="fill:#4C8CF9;"/> </g> <g> <path d="M300.464,397.563H164.61c-3.791,0-6.86-3.07-6.86-6.859c0-3.791,3.069-6.861,6.86-6.861h135.854 c3.79,0,6.864,3.07,6.864,6.861C307.328,394.492,304.254,397.563,300.464,397.563z" style="fill:#4C8CF9;"/> </g> </g> </g> </g> <g id="Layer_1"/> </g>
+                                </svg>
+                                {{$val->libele}}
+                            </a>
+                            @break
+                            @default
+                            <a href="{{url('storage/departement/'.$val->libele.'.'.$val->type)}}" target="_blank">
+                            <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+                                <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 511.999 511.999" xml:space="preserve" width="64px" height="64px" fill="#000000">
+                                <g id="SVGRepo_bgCarrier" stroke-width="0"/>
+                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
+                                <g id="SVGRepo_iconCarrier"> <polygon style="fill:#CEE8FA;" points="61.693,97.624 147.112,97.624 147.112,14.779 "/> <g> <path style="fill:#ff0000;" d="M147.112,112.402H61.693c-6.018,0-11.436-3.65-13.697-9.228c-2.261-5.578-0.913-11.969,3.408-16.159 l85.419-82.844c4.261-4.134,10.582-5.316,16.048-3.002s9.02,7.675,9.02,13.61v82.846 C161.891,105.786,155.274,112.402,147.112,112.402z M98.158,82.845h34.175V49.7L98.158,82.845z"/> <path style="fill:#ff0000;" d="M450.307,319.951c-8.161,0-14.779-6.617-14.779-14.779V36.132c0-3.625-3.247-6.574-7.237-6.574 H215.657c-8.161,0-14.779-6.616-14.779-14.779S207.497,0,215.657,0h212.634c20.29,0,36.795,16.208,36.795,36.131v269.04 C465.086,313.334,458.47,319.951,450.307,319.951z"/> <path style="fill:#ff0000;" d="M428.291,511.999H83.71c-20.29,0-36.795-16.208-36.795-36.131V97.624 c0-3.998,1.62-7.825,4.49-10.608l85.417-82.844c5.858-5.682,15.213-5.541,20.899,0.319c5.682,5.858,5.539,15.215-0.321,20.897 l-80.929,78.49v371.99c0,3.625,3.247,6.574,7.237,6.574h344.582c3.99,0,7.237-2.95,7.237-6.574v-92.663 c0-8.162,6.618-14.779,14.779-14.779c8.161,0,14.779,6.617,14.779,14.779v92.663C465.086,495.791,448.58,511.999,428.291,511.999z"/> <path style="fill:#ff0000;" d="M450.307,112.402h-234.65c-8.161,0-14.779-6.616-14.779-14.779s6.618-14.779,14.779-14.779h219.871 V39.852c0-5.677-4.617-10.293-10.293-10.293H215.656c-8.161,0-14.779-6.616-14.779-14.779S207.495,0,215.656,0h209.579 c21.973,0,39.851,17.878,39.851,39.851v57.772C465.086,105.786,458.47,112.402,450.307,112.402z"/> </g> <rect x="135.552" y="172.749" style="fill:#CEE8FA;" width="240.895" height="67.983"/> <g> <path style="fill:#ff0000;" d="M376.448,255.506H135.553c-8.161,0-14.779-6.617-14.779-14.779v-67.983 c0-8.162,6.618-14.779,14.779-14.779h240.895c8.161,0,14.779,6.616,14.779,14.779v67.983 C391.227,248.89,384.609,255.506,376.448,255.506z M150.332,225.948H361.67v-38.425H150.332V225.948L150.332,225.948z"/> <path style="fill:#ff0000;" d="M222.219,386.546h-86.545c-8.161,0-14.779-6.616-14.779-14.779c0-8.162,6.618-14.779,14.779-14.779 h86.545c8.161,0,14.779,6.616,14.779,14.779C236.998,379.929,230.382,386.546,222.219,386.546z"/> <path style="fill:#ff0000;" d="M243.053,318.563H135.676c-8.161,0-14.779-6.617-14.779-14.779s6.618-14.779,14.779-14.779h107.377 c8.161,0,14.779,6.616,14.779,14.779S251.215,318.563,243.053,318.563z"/> </g> <circle style="fill:#CEE8FA;" cx="332.48" cy="368.318" r="43.844"/> <path style="fill:#ff0000;" d="M332.481,426.941c-32.324,0-58.623-26.297-58.623-58.622s26.299-58.623,58.623-58.623 s58.623,26.297,58.623,58.623S364.806,426.941,332.481,426.941z M332.481,339.253c-16.028,0-29.066,13.038-29.066,29.066 c0,16.026,13.038,29.064,29.066,29.064s29.066-13.038,29.066-29.064C361.547,352.291,348.509,339.253,332.481,339.253z"/> </g>
+                                </svg>
+                                {{$val->libele}}
+                            </a>
+                        @endswitch
+
+                        
+                    </div>
+                    @endforeach
+                    
+                </div>
+                </div>
+            
+            </div>
+    </div>
+
+
+
+    <div>
+
+        <!-- Main modal -->
+        <div id="crud-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+            <div class="relative p-4 w-full max-w-md max-h-full">
+                <!-- Modal content -->
+                <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                    <!-- Modal header -->
+                    <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+                            Nouveau Document
+                        </h3>
+                        <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="crud-modal">
+                            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                            </svg>
+                            <span class="sr-only">Close modal</span>
+                        </button>
+                    </div>
+                    <!-- Modal body -->
+                    <form action="{{route('document.store')}}" method="post" class="p-4 md:p-5" enctype="multipart/form-data">
+                        @csrf 
+                        @method('post')
+                        <div class="grid gap-4 mb-4 grid-cols-2">
+                            <div class="col-span-2">
+                                <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nom du document</label>
+                                <input type="text" name="libele" id="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Type product name" required="">
+                            </div>
+                            <input type="hidden" name="dossier_id" value="{{$dossier->id}}">
+                        </div>
+                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="user_avatar">Charger le document</label>
+                        <input class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="user_avatar_help" id="user_avatar" name="file" type="file">
+                        <div class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="user_avatar_help">...</div>
+          
+                        <div class="flex items-center justify-center">
+                            <button type="submit" class="text-white flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-2 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+                                <svg fill="#f9f21a" width="30px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="-53.9 -53.9 597.80 597.80" xml:space="preserve" stroke="#f9f21a" stroke-width="0.0049">
+                                <g id="SVGRepo_bgCarrier" stroke-width="0"/>
+                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
+                                <g id="SVGRepo_iconCarrier"> <g> <g> <g> <path d="M105.8,330.6V490h278.4V330.6H105.8z M359.7,458.9H134.2c-5.4,0-9.7-4.3-9.7-9.7c0-5.4,4.3-9.7,9.7-9.7h225.6 c5.4,0,9.7,4.3,9.7,9.7C369.4,454.6,365.2,458.9,359.7,458.9z M359.7,381.1H134.2c-5.4,0-9.7-4.3-9.7-9.7s4.3-9.7,9.7-9.7h225.6 c5.4,0,9.7,4.3,9.7,9.7S365.2,381.1,359.7,381.1z"/> <path d="M384.2,123.3V0H105.8v123.3H384.2z M301.4,39.3c0-2.7,2.3-5.1,5.1-5.1h23.7c2.7,0,5.1,2.3,5.1,5.1v40.1 c0,2.7-2.3,5.1-5.1,5.1h-23.7c-2.7,0-5.1-2.3-5.1-5.1V39.3z"/> <path d="M403.7,0v133c0,5.4-4.3,9.7-9.7,9.7H96.1c-5.4,0-9.7-4.3-9.7-9.7V0H0v490h86.3V320.8c0-5.4,4.3-9.7,9.7-9.7h297.9 c5.4,0,9.7,4.3,9.7,9.7V490H490V52.9L437.1,0H403.7z"/> </g> </g> </g> </g>
+                                </svg>
+                                Ajouter
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div> 
+
+     
+    <div>
+
+        
     </div>
     <!-- Importer un script JavaScript (exemple) -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
