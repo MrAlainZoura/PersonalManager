@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Dossier;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\StoreDossierRequest;
 use App\Http\Requests\UpdateDossierRequest;
-use Illuminate\Support\Facades\Validator;
 
 class DossierController extends Controller
 {
@@ -58,9 +59,18 @@ class DossierController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateDossierRequest $request, Dossier $dossier)
+    public function update(Request $request, Dossier $dossier)
     {
-        //
+        $validation = Validator::make(['libele'=>'required|string|max:150']);
+
+        if($validation->fails()){
+            return back()->with('error',$validation->errors());
+        }
+
+        $dossier->update([
+            'libele'=>$request->libele,
+            // 'parent_id'=>$request->parent_id
+        ]);
     }
 
     /**
@@ -68,6 +78,6 @@ class DossierController extends Controller
      */
     public function destroy(Dossier $dossier)
     {
-        //
+        // $dossier->delete();
     }
 }

@@ -226,16 +226,6 @@
         </div> 
 
      
-
-
-    <div>
-        Differents dossiers
-        @foreach($dossier as $key => $val)
-        
-            <p>Dossier <a href="{{route('saveDocDep',$val->dossier->id)}}">{{$val->dossier->libele}}</a></p>
-            
-        @endforeach
-    </div>
     <div>
         
         @foreach($section as $key => $val)

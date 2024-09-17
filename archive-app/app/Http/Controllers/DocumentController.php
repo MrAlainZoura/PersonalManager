@@ -34,7 +34,7 @@ class DocumentController extends Controller
         $validation = Validator::make($request->all(),[
             'dossier_id'=>'required',
             'libele'=>'required|string',
-            'file'=>'required|file|mimes:pdf,jpg,jpeg,png,docx,xlsx,csv,xls,txt|max:2500'
+            'file'=>'required|file|mimes:pdf,jpg,jpeg,png,docx,xlsx,csv,xls,txt,ppt|max:2500'
         ]);
 
         if($validation->fails()){
@@ -66,7 +66,7 @@ class DocumentController extends Controller
         if(!$document){
             return back()->with('echec',"Erreur, revenez plutard");
         }
-        $fichier = $request->file('file')->storeAs('public/departement',$document->libele);
+        $fichier = $request->file('file')->storeAs('public/departement',$document->libele.".$type");
 
         // dd(round($tKb,2) .' Ko', $type);
         // dd($fichier);
