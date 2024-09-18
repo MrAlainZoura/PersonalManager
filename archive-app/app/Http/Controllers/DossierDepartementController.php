@@ -6,6 +6,7 @@ use App\Models\Dossier;
 use Illuminate\Http\Request;
 use App\Models\DossierDepartement;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Validator;
 
 class DossierDepartementController extends Controller
 {
@@ -39,29 +40,25 @@ class DossierDepartementController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
-        $nombre = DossierDepartement::where('departement_id',$request->departement_id)->get();
-        $place = 0;
-        foreach($nombre as $key =>$val){
-            if($val->dossier->libele == ucwords ($request->libele)){
-                $place+=1;
-            }
-        }
-        // dd($place);    
-        $libele = ucwords($request->libele);
         
-        if($place > 0){
-            $libele = ucwords($request->libele) . $place ;
+        $validation = Validator::make($request->all(),['libele'=>'required|string', 'departement_id'=>'required']);
+        if($validation->fails()){
+            return back()->with('error',$validation->errors());
         }
-        // dd($libele);
-        $dossier = Dossier::create(['libele'=>$libele]);
-        if(!$dossier){
+       
+        $dossierD = new DossierController();
+        $model= new DossierDepartement;
+        $libele = $request->libele;
+        $id = $request->departement_id;
+        $createD = $dossierD->store($model, $libele, $id);
+
+        if($createD['success']!=true){
             return back()->with('echec','Echec de création de dossier');
         }
-        // dd($dossier->id);
-        $dossierDepartement = DossierDepartement::firstOrcreate(['departement_id'=>$request->departement_id,'dossier_id'=>$dossier->id]);
-        return back()->with('success',"Dossier $dossier->libele créé avec success");
+        $libele = $createD['libele'];
+        return back()->with('success',"Dossier $libele créé avec success");
     }
+
 
     /**
      * Display the specified resource.
@@ -82,10 +79,14 @@ class DossierDepartementController extends Controller
         return view('departementDossier.show',compact('departements','section','dossier'));
 
     }
+
+    
     public function saveDoc(string $id){
         $dossier = Dossier::where('id',$id)->first();
         // dd($dossier->document);
-        return view('departementDossier.document.index', compact('dossier'));
+        $sousD = Dossier::where('parent_id', $id)->get();
+        // dd($sousD);
+        return view('departementDossier.document.index', compact('dossier','sousD'));
     }
 
     /**

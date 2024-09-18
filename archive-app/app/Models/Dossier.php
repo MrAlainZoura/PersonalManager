@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Dossier extends Model
 {
     use HasFactory;
-    protected $fillable = ['libele'];
+    protected $fillable = ['libele','parent_id'];
 
     public function document(){
         return $this->hasMany(Document::class);
@@ -24,5 +24,4 @@ class Dossier extends Model
     public function dossierAgent(){
         return $this->hasMany(DossierAgent::class);
     }
-    
 }
