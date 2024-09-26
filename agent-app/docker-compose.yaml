@@ -1,0 +1,22 @@
+version: '3.8'
+services:
+  agent_app:
+    build:
+      context:
+      dockerfile: Dockerfile
+    ports:
+      - 8000:8000
+    depends_on:
+      agent_app_db
+
+  agent_app_db:
+    image: mysql:5.7.22
+    environment:
+      MYSQL_DATABASE: agent_app
+      MYSQL_USER: root
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_PASSWORD:
+    volumes:
+      - ./storage/dbdata:/var/lib/mysql
+    ports:
+      - 33060: 3306
