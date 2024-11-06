@@ -1,4 +1,4 @@
-c:\Users\Academy\Downloads\NiceAdmin\assets<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>

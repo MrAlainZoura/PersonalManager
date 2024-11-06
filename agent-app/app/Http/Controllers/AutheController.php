@@ -17,8 +17,8 @@ class AutheController extends Controller
 
         $all = User::all();
         return response()->json([
-            'message'=>"success",
-            "users"=>$all
+            'success'=>true,
+            "message"=>$all
         ]);
     }
     //login logout refresh me
@@ -52,7 +52,7 @@ class AutheController extends Controller
         $credentials = request(['email', 'password']);
 
         if (! $token = auth('api')->attempt($credentials)) {
-            return response()->json(['error'=>'email ou mot de passe incorrect']);
+            return response()->json(['success'=>false,'error'=>'email ou mot de passe incorrect']);
         }
 
         return $this->respondWithToken($token);
@@ -62,9 +62,10 @@ class AutheController extends Controller
     public function me()
     {
         if(auth('api')->user()){
-            return response()->json(auth('api')->user());
+            return response()->json(['success'=>true,'message'=> auth('api')->user()]);
         }else{
             return response()->json([
+                'success'=>false,
                 'error'=>'priere de vous connecter'
             ]);
         }
@@ -76,7 +77,7 @@ class AutheController extends Controller
     {
         auth()->logout();
 
-        return response()->json(['message' => 'Successfully logged out']);
+        return response()->json(['message' => 'Successfully logged out','success'=>true,]);
     }
 
     public function update(Request $request){
@@ -101,21 +102,25 @@ class AutheController extends Controller
                 
                 if($update){
                     return response()->json([
+                        'success'=>true,
                         'message'=>"Profile mis a jour avec succes"
                     ]);
                 }else{
                     return response()->json([
-                        'message'=>"Désolé votre action ne peut etre réalisée maintenant, réessayer plus tard"
+                        'success'=>false,
+                        'error'=>"Désolé votre action ne peut etre réalisée maintenant, réessayer plus tard"
                     ]);
                 }
             }else{
                 return response()->json([
-                    'message'=>"Vous n'etes pas autorise a effectue cette action"
+                    'success'=>false,
+                    'error'=>"Vous n'etes pas autorise a effectue cette action"
                 ]);
             }
         }else{
                 return response()->json([
-                    'message'=>"Authentifiez - vous avant d'effectuer cette action"
+                    'success'=>false,
+                    'error'=>"Authentifiez - vous avant d'effectuer cette action"
                 ]);
         }
     }
@@ -132,7 +137,8 @@ class AutheController extends Controller
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
-            'expires_in' => auth('api')->factory()->getTTL() * 240
+            'expires_in' => auth('api')->factory()->getTTL() * 480,
+            'success'=>true,
         ]);
     }
 }

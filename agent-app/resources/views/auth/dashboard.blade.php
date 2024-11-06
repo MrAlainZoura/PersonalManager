@@ -1,4 +1,4 @@
-c:\Users\Academy\Downloads\NiceAdmin\assets<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -7,7 +7,7 @@ c:\Users\Academy\Downloads\NiceAdmin\assets<!DOCTYPE html>
   <meta name="csrf-token" content="{{ csrf_token() }}" />
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
-  <title>Dashboard - Agent-app</title>
+  <title>P Manager</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -38,7 +38,7 @@ c:\Users\Academy\Downloads\NiceAdmin\assets<!DOCTYPE html>
     <div class="d-flex align-items-center justify-content-between">
       <a href="index.html" class="logo d-flex align-items-center">
         <img src="assets/img/logo.png" alt="">
-        <span class="d-none d-lg-block">NiceAdmin</span>
+        <span class="d-none d-lg-block">Agent app</span>
       </a>
       <i class="bi bi-list toggle-sidebar-btn"></i>
     </div><!-- End Logo -->
@@ -247,10 +247,14 @@ c:\Users\Academy\Downloads\NiceAdmin\assets<!DOCTYPE html>
             </li>
 
             <li>
-              <button class="logout dropdown-item d-flex align-items-center">
-                <i class="bi bi-box-arrow-right"></i>
-                <span>Sign Out</span>
-              </button>
+              <form action="{{route('deconnexion')}}" method="post">
+                @csrf 
+                @method('delete')
+                <button class="lo-g-out dropdown-item d-flex align-items-center">
+                  <i class="bi bi-box-arrow-right"></i>
+                  <span>Sign Out</span>
+                </button>
+              </form>
             </li>
 
           </ul><!-- End Profile Dropdown Items -->
@@ -284,7 +288,7 @@ c:\Users\Academy\Downloads\NiceAdmin\assets<!DOCTYPE html>
         </a>
       </li><!-- End Profile Page Nav -->
       <li class="nav-item">
-        <a class="nav-link collapsed" href="#">
+        <a class="nav-link collapsed" href="{{route('agent.index')}}">
           <i class="bi bi-person"></i>
           <span>User</span>
         </a>
@@ -351,7 +355,7 @@ c:\Users\Academy\Downloads\NiceAdmin\assets<!DOCTYPE html>
                 </div>
 
                 <div class="card-body">
-                  <h5 class="card-title">Sales <span>| Today</span></h5>
+                  <h5 class="card-title">Presence <span>| ce Mois</span></h5>
 
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
@@ -386,7 +390,7 @@ c:\Users\Academy\Downloads\NiceAdmin\assets<!DOCTYPE html>
                 </div>
 
                 <div class="card-body">
-                  <h5 class="card-title">Revenue <span>| This Month</span></h5>
+                  <h5 class="card-title">Performance <span>| ce mois</span></h5>
 
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
@@ -422,7 +426,7 @@ c:\Users\Academy\Downloads\NiceAdmin\assets<!DOCTYPE html>
                 </div>
 
                 <div class="card-body">
-                  <h5 class="card-title">Customers <span>| This Year</span></h5>
+                  <h5 class="card-title">Heure de travail <span>| ce mois</span></h5>
 
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
@@ -458,7 +462,7 @@ c:\Users\Academy\Downloads\NiceAdmin\assets<!DOCTYPE html>
                 </div>
 
                 <div class="card-body">
-                  <h5 class="card-title">Reports <span>/Today</span></h5>
+                  <h5 class="card-title">Apport <span>/Ajourd'hui</span></h5>
 
                   <!-- Line Chart -->
                   <div id="reportsChart"></div>
@@ -782,7 +786,7 @@ c:\Users\Academy\Downloads\NiceAdmin\assets<!DOCTYPE html>
             </div>
 
             <div class="card-body pb-0">
-              <h5 class="card-title">Budget Report <span>| This Month</span></h5>
+              <h5 class="card-title">Rapport <span>| Mois passé</span></h5>
 
               <div id="budgetChart" style="min-height: 400px;" class="echart"></div>
 

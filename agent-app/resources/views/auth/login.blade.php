@@ -57,7 +57,7 @@
                     <p class="text-center small">Enter your username & password to login</p>
                   </div>
 
-                  <form id="login-form" action="" method="post" class="row g-3 needs-validation" novalidate>
+                  <form  action="{{route('authentification')}}" method="post" class="row g-3 needs-validation" novalidate>
                     @csrf
                     @method('post')
                     <div class="erreur" role="alert"></div>   

@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\api;
 
-use App\Http\Controllers\Controller;
+use App\Models\User;
 use App\Models\Agent;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class AgentController extends Controller
 {
@@ -16,7 +18,11 @@ class AgentController extends Controller
      */
     public function index()
     {
-        //
+        $agent = Agent::all();
+        return response()->json([
+            'success'=>true,
+            'agents'=>$agent
+        ]);
     }
 
     /**
@@ -45,8 +51,18 @@ class AgentController extends Controller
         if($validattion->fails()){
             return response()->json($validattion->errors());
         }
+        $password = Hash::make('0000');
+        $createUser = User::firstOrCreate(['email'=>$request->email, 'name'=>$request->nom,'password'=>$password]);
+       
+        if(!$createUser){
+            return response()->json([
+                'sucess'=>false,
+                'error'=>"Une erreur s'est produite lors de l'enregistrement"
+            ]);
+        }
         $insert = [
-            'user_id'=>$request->userid,
+            'user_id'=>$request->user_id,
+            'role_id'=>$request->role_id,
             'nom'=>$request->nom,
             'postnom'=>$request->postnom,
             'prenom'=>$request->prenom,
@@ -57,7 +73,6 @@ class AgentController extends Controller
             'grade'=>$request->grave,
             'statut'=>'En activité',
             'service_id'=>$request->service_id,
-            'user_id'=>$request->user_id
         ];
         $agent = Agent::create($insert);
 
@@ -79,7 +94,6 @@ class AgentController extends Controller
     public function show(Request $request)
     {
         $validattion = Validator::make($request->all(), [
-            // 'nom'=>'required|string',
             'email'=>'required|string|email'
         ]);
 
@@ -88,9 +102,7 @@ class AgentController extends Controller
             return response()->json($validattion->errors());
         }
         $email = $request->email;
-        // $nom = $request->nom;
 
-        // $agent = Agent::where('email',$email)->where('nom',$nom)->first();
         $agent = Agent::where('email',$email)->first();
         if ($agent) {
             return response()->json([
@@ -132,7 +144,40 @@ class AgentController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $validattion = Validator::make($request->all(), [
+            'nom'=>'required|string|min:3|max:255',
+            'postnom'=>'required|string|min:3|max:255',
+            'prenom'=>'required|string|min:3|max:255',
+            'genre'=>'required|string|max:255',
+            'date_naissance'=>'required|date',
+            'engagement'=>'required|date',
+        ]);
+
+        
+        if($validattion->fails()){
+            return response()->json($validattion->errors());
+        }
+        $insert = [
+            'user_id'=>$request->userid,
+            'nom'=>$request->nom,
+            'postnom'=>$request->postnom,
+            'prenom'=>$request->prenom,
+            'genre'=>$request->genre,
+            'date_naissance'=>$request->date_naissance,
+            'engagement'=>$request->engagement,
+            'fonction'=>$request->fonction,
+            'grade'=>$request->grave,
+            'statut'=>'En activité',
+            'service_id'=>$request->service_id,
+            'user_id'=>$request->user_id
+        ];
+        $departement = DB::table('departements')
+                ->where('id', $request->id)
+                ->update($insert);
+        return response()->json([
+        'sucess'=>true,
+        'departement'=>Agent::findOrFail($request->id)
+        ]);
     }
 
     /**
@@ -140,6 +185,6 @@ class AgentController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $agrnt= Agent::where('id',$id)->delete();
     }
 }

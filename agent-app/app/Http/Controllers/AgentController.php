@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Role;
+use App\Models\User;
 use App\Models\Agent;
 use App\Models\Service;
+use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\StoreAgentRequest;
 use App\Http\Requests\UpdateAgentRequest;
 use Illuminate\Support\Facades\Validator;
@@ -16,7 +18,8 @@ class AgentController extends Controller
      */
     public function index()
     {
-        //
+        $agent = Agent::all();
+        return view('users.index0',compact('agent'));
     }
 
     /**
@@ -26,7 +29,7 @@ class AgentController extends Controller
     {
         $role = Role::latest()->get();
         $service = Service::latest()->get();
-        return view('users.index', compact('role','service'));
+        return view('users.create', compact('role','service'));
     }
 
     /**
@@ -43,7 +46,7 @@ class AgentController extends Controller
             'genre'=>'required|string|max:255',
             'date_naissance'=>'required|date',
             'engagement'=>'required|date',
-            'email'=>'required|email|unique:agents'
+            'email'=>'required|email|unique:agents',
         ]);
 
         
@@ -52,6 +55,14 @@ class AgentController extends Controller
             return back()->with('echec', $message);
         }
         
+        
+        $password = Hash::make('0000');
+        $createUser = User::firstOrCreate(['email'=>$request->email, 'name'=>$request->nom,'password'=>$password]);
+       
+        if(!$createUser){
+            return back()->with('echec',"Une erreur s'est produite lors de l'enregistrement");
+        }
+    
         $insert = [
             'nom'=>$request->nom,
             'postnom'=>$request->postnom,
@@ -65,7 +76,7 @@ class AgentController extends Controller
             'matricule'=>$request->matricule,
             'statut'=>'En activité',
             'service_id'=>$request->service_id,
-            'user_id'=>$request->user_id,
+            'user_id'=>$createUser->id,
             'role_id'=>$request->role_id
         ];
         $agent = Agent::create($insert);

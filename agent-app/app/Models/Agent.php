@@ -21,7 +21,8 @@ class Agent extends Model
         'statut',
         'service_id',
         'role_id',
-        'matricule'
+        'matricule',
+        'user_id'
     ];
 
     public function service (){
