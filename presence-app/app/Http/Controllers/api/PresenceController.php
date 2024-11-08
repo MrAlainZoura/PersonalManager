@@ -64,9 +64,10 @@ class PresenceController extends Controller
         $agent = Http::get('http://127.0.0.1:8000/api/agent-show/?email='.$request->email);
         // $agent = Http::get('http://127.0.0.1:8000/api/agent-show/?nom='.$request->nom.'&email='.$request->email);
         //je recupere l'id de service et la localisation 
-
+// return "ici";
         if($agent->successful()){
             $agent_trouver = $agent->object();
+            
             if($agent_trouver->success != true){
                 
                 return response()->json([
@@ -81,19 +82,22 @@ class PresenceController extends Controller
                 'success'=>false
             ]);
         }
-        
+        // return $agent_trouver;
         //verifier si presence existe deja pour ce jour
         $verif_prese = Presence::where('email',$request->email)->where('nom',$request->nom)->latest()->first();
-        if($verif_prese->count() > 0){
-            $date = Carbon::parse($verif_prese->h_arrive)->format('Y-m-d');
-            $today = $h_arrive0->format('Y-m-d');
+      
+        if($verif_prese != null)
+         {   if($verif_prese->count() > 0){
+                $date = Carbon::parse($verif_prese->h_arrive)->format('Y-m-d');
+                $today = $h_arrive0->format('Y-m-d');
 
-            if($date == $today){
-                return response()->json([
-                    'success'=>true,
-                    'message'=>'Signer la sortie et revenez le prochain jour de travail'
-                ]);
-            } 
+                if($date == $today){
+                    return response()->json([
+                        'success'=>true,
+                        'message'=>'Signer la sortie et revenez le prochain jour de travail'
+                    ]);
+                } 
+            }
         }
         $service  = Http::get('http://127.0.0.1:8000/api/service/?'.$agent_trouver->agent->service_id);
         
@@ -198,7 +202,7 @@ class PresenceController extends Controller
         if($now >= $jourHier){
             return response()->json([
                 'success'=>false,
-                'echec'=>'Le temps est dépassé',
+                'error'=>'Le temps est dépassé',
             ]);
         }
         $update = Presence::where('id',$request->id)->update(['h_sortie' => $now]);
