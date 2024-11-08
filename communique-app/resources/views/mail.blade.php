@@ -8,7 +8,7 @@
 <body>
     <h1> {{$contenu['titre']}}</h1>
     <h3> {{$contenu['contenu']}} </h3>
-    <h6>Pas de panique c'est zoura, je teste mon application</h6>
+    <!-- <h6>Pas de panique c'est zoura, je teste mon application</h6> -->
     <h6>@coryright zouracorp 2024</h6>
 </body>
 </html>
