@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Presence;
+use Barryvdh\DomPDF\Facade\PDF;
 use App\Jobs\PresenceJob;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -353,6 +354,54 @@ class PresenceController extends Controller implements ShouldQueue
     public function destroy(Presence $presence)
     {
         //
+    }
+
+    public function globalPresence(){
+ 
+        $lancement = 2020;
+        $now = Carbon::now()->year;
+        $tab = [];
+        
+        for($i = $lancement; $i <= $now; $i++){
+            $presence = Presence::whereYear('h_arrive',$i)->latest()->get();
+            if(count($presence) > 0){
+                $tab_mois=[];
+                for($mois=1; $mois <= 12; $mois++){
+                    $presence_mois = Presence::whereYear('h_arrive',$i)->whereMonth('h_arrive',$mois)->get();
+
+                    if(count($presence_mois) > 0){
+                        $tab_jour=[];
+                        foreach($presence_mois as $key=>$val){
+                            $element = Carbon::parse($val->h_arrive)->format('Y-m-d');
+                            if($key==0){
+                                $tab_jourcle = Presence::where('created_at','like',"%$element%")->get();
+                                $tab_jour [$element]= $tab_jourcle;
+                            }
+                            if($key > 0){
+                                
+                                $cle= $key-1;
+                                $element2 = Carbon::parse($presence_mois[$cle]->h_arrive)->format('Y-m-d');
+                
+                                if($element != $element2){
+                                    $tab_jourcle2 = Presence::where('created_at','like',"%$element2%")->get();
+                                    $tab_jour [$element2]= $tab_jourcle2;
+                                }
+                            }
+                            $dernier = count($presence_mois)-1;
+                            if($key == $dernier){
+                                $tab_jourcle = Presence::where('created_at','like',"%$element2%")->get();
+
+                                $tab_jour[$element]= $tab_jourcle;
+                            }
+                        }
+                        $tab_mois[$mois]=$tab_jour;
+                       
+                    }
+                } 
+                $tab[$i]=$tab_mois;
+            }  
+        }
+       return view('presences.global', compact('tab'));        
     }
 
     public function getIntervalDate($date)
